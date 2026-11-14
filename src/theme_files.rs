@@ -2,8 +2,9 @@
 //!
 //! A `.sukisu` package is `SKTH` + 12-byte GCM nonce + AES-256-GCM ciphertext
 //! around a ZIP. The manager (ThemePackageCrypto.kt) and `package.rs` share the
-//! same key, so the console can decrypt, list, edit a JSON entry, replace an
-//! image in place and re-encrypt without ever exposing the key to the browser.
+//! same key, so the console can decrypt, list, preview images (detected by
+//! their content, not their file extension) and edit a JSON entry, then
+//! re-encrypt without ever exposing the key to the browser.
 //!
 //! Every operation re-reads the package from storage; nothing is cached across
 //! requests. Edits are validated with `validate_package` before they are
@@ -16,7 +17,7 @@ use std::path::{Component, Path as StdPath, PathBuf};
 use aes_gcm::aead::{Aead, KeyInit};
 use aes_gcm::{Aes256Gcm, Nonce};
 use axum::body::Body;
-use axum::extract::{DefaultBodyLimit, Path, Query, State};
+use axum::extract::{Path, Query, State};
 use axum::http::{header, StatusCode};
 use axum::response::Response;
 use axum::routing::{get, put};
@@ -41,24 +42,17 @@ const MAX_ENTRIES: usize = 64;
 const MAX_TOTAL_UNCOMPRESSED: u64 = 256 * 1024 * 1024;
 const MAX_FILE_BYTES: u64 = 64 * 1024 * 1024;
 const MAX_JSON_BYTES: usize = 2 * 1024 * 1024;
-const MAX_IMAGE_BYTES: usize = 8 * 1024 * 1024;
-const IMAGE_EXTENSIONS: [&str; 5] = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
 
 pub fn admin_router() -> Router<AppState> {
     Router::new()
         .route("/theme-files/{id}", get(list_theme_files))
         .route("/theme-files/{id}/file", get(read_theme_file))
         .route("/theme-files/{id}/json", put(save_theme_json))
-        .route("/theme-files/{id}/image", put(replace_theme_image))
         .route("/theme-files/{id}/download", get(download_theme_files))
         .route("/pending-files/{id}", get(list_pending_files))
         .route("/pending-files/{id}/file", get(read_pending_file))
         .route("/pending-files/{id}/json", put(save_pending_json))
-        .route("/pending-files/{id}/image", put(replace_pending_image))
         .route("/pending-files/{id}/download", get(download_pending_files))
-        // Image replacement posts raw bytes; the global Axum body limit (2 MiB)
-        // would reject an 8 MiB image before this handler ever runs.
-        .layer(DefaultBodyLimit::max(10 * 1024 * 1024))
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -187,46 +181,6 @@ async fn save_pending_json(
     .await
 }
 
-async fn replace_theme_image(
-    State(state): State<AppState>,
-    Extension(actor): Extension<SessionInfo>,
-    Path(id): Path<String>,
-    Query(query): Query<FileQuery>,
-    body: Bytes,
-) -> ApiResult<Json<Value>> {
-    edit_common(
-        &state,
-        TargetKind::Theme,
-        &id,
-        &actor,
-        Edit::Image {
-            path: query.path,
-            data: body.to_vec(),
-        },
-    )
-    .await
-}
-
-async fn replace_pending_image(
-    State(state): State<AppState>,
-    Extension(actor): Extension<SessionInfo>,
-    Path(id): Path<String>,
-    Query(query): Query<FileQuery>,
-    body: Bytes,
-) -> ApiResult<Json<Value>> {
-    edit_common(
-        &state,
-        TargetKind::Pending,
-        &id,
-        &actor,
-        Edit::Image {
-            path: query.path,
-            data: body.to_vec(),
-        },
-    )
-    .await
-}
-
 async fn download_theme_files(
     State(state): State<AppState>,
     Path(id): Path<String>,
@@ -254,6 +208,7 @@ async fn list_common(state: &AppState, kind: TargetKind, id: &str) -> ApiResult<
         "files": loaded.entries.iter().map(|entry| json!({
             "name": entry.name,
             "size": entry.data.len(),
+            "kind": entry_kind(&entry.name, &entry.data),
         })).collect::<Vec<_>>(),
     })))
 }
@@ -279,7 +234,7 @@ async fn read_common(
         .iter()
         .find(|entry| entry.name == path)
         .ok_or_else(|| ApiError::not_found("主题包里没有这个文件"))?;
-    let content_type = content_type_for(&entry.name);
+    let content_type = read_content_type(&entry.name, &entry.data);
     // Never let a package entry (HTML/JS/SVG) run as a same-origin document.
     // Those types are only offered as attachments; the console previews text
     // by fetching and rendering it as inert text.
@@ -331,9 +286,52 @@ async fn download_common(state: &AppState, kind: TargetKind, id: &str) -> ApiRes
         .map_err(ApiError::internal)
 }
 
+/// Detect the common image formats by content, not by file name. Theme
+/// packages store previews without extensions, so extension-based detection
+/// would classify them as opaque binaries.
+fn image_mime(data: &[u8]) -> Option<&'static str> {
+    if data.starts_with(b"\x89PNG\r\n\x1a\n") {
+        return Some("image/png");
+    }
+    if data.starts_with(&[0xFF, 0xD8, 0xFF]) {
+        return Some("image/jpeg");
+    }
+    if data.len() >= 12 && data.starts_with(b"RIFF") && &data[8..12] == b"WEBP" {
+        return Some("image/webp");
+    }
+    if data.starts_with(b"GIF87a") || data.starts_with(b"GIF89a") {
+        return Some("image/gif");
+    }
+    None
+}
+
+fn is_json_name(name: &str) -> bool {
+    name.to_ascii_lowercase().ends_with(".json")
+}
+
+fn entry_kind(name: &str, data: &[u8]) -> &'static str {
+    if image_mime(data).is_some() {
+        "image"
+    } else if is_json_name(name) {
+        "json"
+    } else if content_type_for(name).starts_with("text/") {
+        "text"
+    } else {
+        "binary"
+    }
+}
+
+fn read_content_type(name: &str, data: &[u8]) -> String {
+    if let Some(mime) = image_mime(data) {
+        // A file that merely looks like an image but is named .html/.svg must
+        // still be served as an attachment by the `active` guard below.
+        return mime.to_string();
+    }
+    content_type_for(name)
+}
+
 enum Edit {
     Json { path: String, content: String },
-    Image { path: String, data: Vec<u8> },
 }
 
 async fn edit_common(
@@ -374,34 +372,6 @@ async fn edit_common(
                 .ok_or_else(|| ApiError::not_found("主题包里没有这个文件"))?;
             entry.data = content.into_bytes();
             (path, "json")
-        }
-        Edit::Image { path, data } => {
-            let extension = std::path::Path::new(&path)
-                .extension()
-                .and_then(|value| value.to_str())
-                .map(|value| format!(".{}", value.to_ascii_lowercase()))
-                .unwrap_or_default();
-            if !IMAGE_EXTENSIONS.contains(&extension.as_str()) {
-                return Err(ApiError::bad("只有图片可以原位替换"));
-            }
-            if data.is_empty() {
-                return Err(ApiError::bad("没有收到图片内容"));
-            }
-            if data.len() > MAX_IMAGE_BYTES {
-                return Err(ApiError::new(
-                    StatusCode::PAYLOAD_TOO_LARGE,
-                    "图片过大",
-                ));
-            }
-            crate::images::validate_image(&data, &extension)
-                .map_err(|_| ApiError::bad("图片格式无法识别"))?;
-            let entry = loaded
-                .entries
-                .iter_mut()
-                .find(|entry| entry.name == path)
-                .ok_or_else(|| ApiError::not_found("主题包里没有这个文件"))?;
-            entry.data = data;
-            (path, "image")
         }
     };
     let plain = build_zip(&loaded.entries)?;
@@ -721,6 +691,21 @@ mod tests {
         }])
         .expect("zip");
         assert!(read_zip(&plain).is_err());
+    }
+
+    #[test]
+    fn extensionless_images_are_detected_by_magic() {
+        let png = b"\x89PNG\r\n\x1a\nrest";
+        let jpeg = b"\xff\xd8\xffrest";
+        let webp = b"RIFF\x00\x00\x00\x00WEBPrest";
+        assert_eq!(image_mime(png), Some("image/png"));
+        assert_eq!(image_mime(jpeg), Some("image/jpeg"));
+        assert_eq!(image_mime(webp), Some("image/webp"));
+        // Theme packages commonly store previews under names without suffixes.
+        assert_eq!(entry_kind("background_dark", png), "image");
+        assert_eq!(entry_kind("theme.json", b"{}"), "json");
+        assert_eq!(entry_kind("readme", b"hello"), "binary");
+        assert_eq!(read_content_type("background_dark", png), "image/png");
     }
 
     #[test]

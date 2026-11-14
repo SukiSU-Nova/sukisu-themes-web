@@ -34,14 +34,15 @@
       <div class="nav-label">总览</div>
       <a href="#overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>概览</a>
       <div class="nav-label">账号</div>
-      <a href="#users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20c.7-4 2.7-6 6-6s5.3 2 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14c2.2.5 3.5 2.5 4 6"/></svg>用户 <span class="nav-badge" id="usersNavBadge">0</span></a>
-      <a href="#follows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z"/></svg>关注关系 <span class="nav-badge" id="followsNavBadge">0</span></a>
+      <a href="#users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20c.7-4 2.7-6 6-6s5.3 2 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14c2.2.5 3.5 2.5 4 6"/></svg>用户 <span class="nav-badge" id="usersNavBadge" style="display:none">0</span></a>
+      <a href="#follows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z"/></svg>关注关系 <span class="nav-badge" id="followsNavBadge" style="display:none">0</span></a>
       <a href="#authors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="2"/><path d="M5.8 16c.4-2 1.3-3 2.7-3s2.3 1 2.7 3"/><path d="M14 9h4M14 12h4"/></svg>作者许可</a>
       <a href="/account/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"/></svg>用户中心 <span style="margin-left:auto;color:var(--faint)">↗</span></a>
       <div class="nav-label">主题</div>
-      <a href="#pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h5"/></svg>待审核 <span class="nav-badge" id="pendingNavBadge">0</span></a>
-      <a href="#comments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3v-4.5A7 7 0 0 1 4 12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M8.5 11h7M8.5 14h4"/></svg>评论管理 <span class="nav-badge" id="commentsNavBadge">0</span></a>
-      <a href="#community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v12H9l-5 3V5Z"/><path d="M8 9h8M8 13h5"/></svg>举报与申诉</a>
+      <a href="#pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h5"/></svg>待审核 <span class="nav-badge" id="pendingNavBadge" style="display:none">0</span></a>
+      <a href="#comments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3v-4.5A7 7 0 0 1 4 12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M8.5 11h7M8.5 14h4"/></svg>评论管理</a>
+      <a href="#dm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>用户私信 <span class="nav-badge" id="dmNavBadge" style="display:none">0</span></a>
+      <a href="#community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v12H9l-5 3V5Z"/><path d="M8 9h8M8 13h5"/></svg>举报与申诉 <span class="nav-badge" id="reportsNavBadge" style="display:none">0</span></a>
       <a href="#themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="4" width="17" height="16" rx="3"/><path d="m4 16 4.5-4.5 3 3 3-3L20 16"/><circle cx="15.5" cy="8.5" r="1.6"/></svg>主题管理</a>
       <div class="nav-label">系统</div>
       <a href="#storage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="5.5" rx="7.5" ry="3"/><path d="M4.5 5.5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6"/><path d="M4.5 11.5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6"/></svg>存储与配额</a>
@@ -78,7 +79,7 @@
           </button>
           <div class="notify-panel" id="notifyPanel" hidden>
             <div class="notify-head"><span>待处理</span><span class="pill" id="notifyTotal">0</span></div>
-            <a class="notify-item" href="#pending" data-notify-key="pending">
+            <a class="notify-item" href="#pending" data-notify-key="themes">
               <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h5"/></svg></i>
               <div><b>待审核主题</b><span>新的投稿等待审核</span></div>
               <span class="notify-count" id="notifyPending">0</span>
@@ -87,6 +88,11 @@
               <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="2"/><path d="M5.8 16c.4-2 1.3-3 2.7-3s2.3 1 2.7 3"/><path d="M14 9h4M14 12h4"/></svg></i>
               <div><b>作者申请</b><span>绑定、新增或重置作者身份</span></div>
               <span class="notify-count" id="notifyRequests">0</span>
+            </a>
+            <a class="notify-item" href="#dm" data-notify-key="dm">
+              <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></i>
+              <div><b>用户私信</b><span>用户发来的新消息</span></div>
+              <span class="notify-count" id="notifyDm">0</span>
             </a>
             <div class="notify-empty" id="notifyEmpty">暂无新的待处理消息</div>
           </div>
@@ -241,13 +247,22 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
           <input id="followSearch" type="search" placeholder="搜索关注者、作者或账号…">
         </div>
+        <div class="view-switch" role="group" aria-label="关注关系视图">
+          <button type="button" data-follow-view="list" class="active">列表</button>
+          <button type="button" data-follow-view="graph">关系网</button>
+        </div>
       </div>
-      <div class="card">
+      <div class="card" id="followListCard">
         <table class="table">
           <thead><tr><th>关注者</th><th>被关注作者</th><th>作者归属</th><th>时间</th></tr></thead>
           <tbody id="followRows"></tbody>
         </table>
         <div class="empty hidden" id="followEmpty">暂无关注关系</div>
+      </div>
+      <div class="card follow-graph-card hidden" id="followGraphCard">
+        <div class="follow-graph-legend"><span><i class="dot user"></i>关注者</span><span><i class="dot author"></i>作者</span><span><i class="dot owner"></i>归属账号</span><span class="hint">节点越大连接越多 · 放大到 120% 显示关注者名称 · 拖动节点/空白平移 · 滚轮缩放</span></div>
+        <div class="follow-graph" id="followGraph"></div>
+        <div class="empty hidden" id="followGraphEmpty">没有匹配的关系</div>
       </div>
     </section>
 
@@ -293,6 +308,24 @@
         </div>
         <div id="authorsList" class="author-directory"></div>
         <div class="empty" id="authorsEmpty"><b>还没有自动审批作者</b>批准第一篇投稿后，作者 ID 会出现在这里。</div>
+      </div>
+    </section>
+
+    <section id="dm" class="page">
+      <div class="section-head"><div><h3>用户私信</h3><p>与注册用户一对一沟通；用户消息会同步到右上角铃铛，回复后用户中心「消息 · 管理员私信」可查看。</p></div><div class="dm-head-actions"><span class="pill" id="dmUnreadPill">0 条未读</span><button class="btn small" id="dmRefresh" type="button">刷新</button></div></div>
+      <div class="card dm-layout">
+        <aside class="dm-side">
+          <div class="dm-side-head"><b>会话</b><span class="hint">按最近消息排序</span></div>
+          <div class="dm-conversation-list" id="dmConversationList"><div class="empty">正在加载…</div></div>
+        </aside>
+        <div class="dm-main">
+          <div class="dm-main-head"><h4 id="dmPeerTitle">选择左侧用户</h4><span class="hint" id="dmPeerMeta"></span></div>
+          <div class="dm-messages" id="dmMessageList"><div class="empty">选择一位用户开始私信</div></div>
+          <form class="dm-composer" id="dmForm">
+            <textarea id="dmInput" maxlength="2000" rows="3" placeholder="输入私信内容，Enter 发送，Shift+Enter 换行"></textarea>
+            <button class="primary" type="submit" id="dmSend">发送</button>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -901,6 +934,18 @@
           </div>
           <p class="field-hint">修改成功后需要重新登录。</p>
         </div>
+        <div class="card wide">
+          <h4><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10v4M8 7v10M12 5v14M16 8v8M20 10v4"/></svg>站点公告</h4>
+          <p class="hint">公告会展示给所有用户中心用户。内容为空时不弹窗；保存新内容后，所有未读该版本的用户会再次看到一次公告。</p>
+          <label for="announcementContent">公告内容</label>
+          <textarea id="announcementContent" rows="6" maxlength="5000" placeholder="例如：本周六 22:00 将进行镜像维护，期间下载可能短暂中断。"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button class="primary" id="saveAnnouncement" type="button">保存公告</button>
+            <button id="clearAnnouncement" type="button">清空公告</button>
+            <span class="hint" id="announcementState"></span>
+          </div>
+          <p class="field-hint" id="announcementMeta">尚未读取公告版本。</p>
+        </div>
         <details class="card wide fold-card" id="credentialFold">
           <summary class="fold-summary">
             <span class="fold-copy">
@@ -1133,7 +1178,7 @@
     </div>
     <div class="row theme-files-actions">
       <button class="primary" id="themeFilesDownload" type="button">下载解包后的文件</button>
-      <span class="hint" id="themeFilesHint">JSON 可在线编辑；图片可原位替换（文件名不变）；打包下载会自动解包并压缩为 zip。</span>
+      <span class="hint" id="themeFilesHint">JSON 可在线编辑；图片仅支持在线查看（无后缀图片按内容识别）；打包下载会自动解包并压缩为 zip。</span>
     </div>
   </div>
 </dialog>
@@ -2104,7 +2149,8 @@ function openThemeDetail(theme) {
   $('themeDetailBody').innerHTML = `
     ${gallery}
     <div class="row" style="margin:12px 0">
-      <button class="primary" type="button" data-theme-detail-action="edit">编辑主题</button>
+      <button class="primary" type="button" data-theme-detail-action="files">查看主题包</button>
+      <button type="button" data-theme-detail-action="edit">编辑主题</button>
       <button class="danger" type="button" data-theme-detail-action="delete">删除主题</button>
     </div>
     <div class="theme-detail-meta">
@@ -2160,14 +2206,54 @@ $('themeDetailBody').addEventListener('click', event => {
   if (!button) return;
   const theme = themeItems.find(item => item.id === themeDetailId);
   if (!theme) return;
+  const action = button.dataset.themeDetailAction;
+  if (action === 'files') {
+    openThemeFiles('theme', theme.id, theme.name);
+    return;
+  }
   $('themeDetailDialog').close();
-  if (button.dataset.themeDetailAction === 'edit') openThemeEditor(theme);
+  if (action === 'edit') openThemeEditor(theme);
   else deleteTheme(theme.id);
 });
 $('themeDetailDialog').addEventListener('click', event => {
   if (event.target === $('themeDetailDialog')) $('themeDetailDialog').close();
 });
 
+
+// Comment author / theme links stay inside the console: the avatar or name
+// opens the user detail page, the body opens the theme detail dialog.
+async function openAdminThemeById(themeId) {
+  if (!themeId) return;
+  try {
+    let theme = themeItems.find(item => item.id === themeId);
+    if (!theme) {
+      await loadThemes();
+      theme = themeItems.find(item => item.id === themeId);
+    }
+    if (!theme) { toast('主题 ' + themeId + ' 不在当前目录中', 'bad'); return; }
+    openThemeDetail(theme);
+  } catch (error) {
+    toast('主题读取失败：' + error.message, 'bad');
+  }
+}
+document.addEventListener('click', async event => {
+  if (event.target.closest('a')) return;
+  const author = event.target.closest('[data-comment-user]');
+  if (author) {
+    event.preventDefault();
+    event.stopPropagation();
+    if ($('themeDetailDialog') && $('themeDetailDialog').open) $('themeDetailDialog').close();
+    openUserDetailPage(author.dataset.commentUser);
+    return;
+  }
+  const body = event.target.closest('[data-comment-theme]');
+  if (body) {
+    event.preventDefault();
+    event.stopPropagation();
+    if ($('themeDetailDialog') && $('themeDetailDialog').open) $('themeDetailDialog').close();
+    await openAdminThemeById(body.dataset.commentTheme);
+  }
+});
 
 // ── Theme package files (admin only) ────────────────────────────────
 const themeFilesState = { kind: 'theme', id: '', name: '', sha256: '', size: 0, files: [], active: '', base: '' };
@@ -2193,7 +2279,8 @@ async function adminRaw(path, options = {}) {
   return response;
 }
 
-function themeFileKind(name) {
+function themeFileKind(name, file) {
+  if (file && file.kind) return file.kind;
   const lower = String(name || '').toLowerCase();
   if (lower.endsWith('.json')) return 'json';
   if (/\.(png|jpg|jpeg|webp|gif)$/.test(lower)) return 'image';
@@ -2201,8 +2288,8 @@ function themeFileKind(name) {
   return 'binary';
 }
 
-function themeFileIcon(name) {
-  const kind = themeFileKind(name);
+function themeFileIcon(file) {
+  const kind = themeFileKind(file && file.name, file);
   if (kind === 'json') return '{ }';
   if (kind === 'image') return 'IMG';
   return 'FILE';
@@ -2234,7 +2321,7 @@ function renderThemeFileList() {
       <div class="theme-file-dir">${escapeHtml(dir || '根目录')}</div>
       ${groups[dir].map(file => `
         <button type="button" class="theme-file-item ${file.name === state.active ? 'active' : ''}" data-theme-file="${escapeHtml(file.name)}">
-          <span class="theme-file-icon">${themeFileIcon(file.name)}</span>
+          <span class="theme-file-icon">${themeFileIcon(file)}</span>
           <span class="theme-file-name mono">${escapeHtml(file.name.slice(dir.length))}</span>
           <span class="theme-file-size">${formatSize(file.size)}</span>
         </button>`).join('')}
@@ -2288,19 +2375,13 @@ function openThemeFile(path) {
   renderThemeFileList();
   const view = $('themeFilesView');
   const url = API + state.base + '/file?path=' + encodeURIComponent(path);
-  const kind = themeFileKind(path);
+  const kind = themeFileKind(path, file);
   if (kind === 'image') {
     view.innerHTML = `<div class="theme-file-preview">
       <img src="${escapeHtml(url)}&v=${encodeURIComponent(state.sha256)}" alt="${escapeHtml(path)}">
       <div class="theme-file-preview-meta"><span class="mono">${escapeHtml(path)}</span><span>${formatSize(file.size)}</span></div>
-      <div class="row">
-        <button type="button" class="primary" id="themeFilePickImage">选择图片替换</button>
-        <span class="hint">只能替换图片内容，文件名和路径保持「${escapeHtml(path)}」不变；保存后自动重算 sha256。</span>
-      </div>
-      <input type="file" id="themeFileImageInput" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+      <div class="hint">图片仅支持在线查看（按文件内容识别格式，无后缀也能预览）。</div>
     </div>`;
-    $('themeFilePickImage').addEventListener('click', () => $('themeFileImageInput').click());
-    $('themeFileImageInput').addEventListener('change', () => replaceThemeFileImage(path, $('themeFileImageInput').files[0]));
     return;
   }
   if (kind === 'json') {
@@ -2328,7 +2409,7 @@ function openThemeFile(path) {
       .catch(error => { view.innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`; });
     return;
   }
-  view.innerHTML = `<div class="theme-file-readonly"><div class="empty">该类型文件不支持在线预览或替换。<br><span class="mono">${escapeHtml(path)}</span> · ${formatSize(file.size)}</div>
+  view.innerHTML = `<div class="theme-file-readonly"><div class="empty">该类型文件不支持在线预览。<br><span class="mono">${escapeHtml(path)}</span> · ${formatSize(file.size)}</div>
     <div class="row"><a class="btn small" href="${escapeHtml(url)}" download="${escapeHtml(path.split('/').pop())}">下载该文件</a></div></div>`;
 }
 
@@ -2359,29 +2440,6 @@ async function saveThemeFileJson(path) {
   }
 }
 
-async function replaceThemeFileImage(path, file) {
-  if (!file) return;
-  if (file.size > 8 * 1024 * 1024) { toast('图片不能超过 8MB', 'error'); return; }
-  const state = themeFilesState;
-  toast('正在替换图片…');
-  try {
-    const data = await adminRaw(state.base + '/image?path=' + encodeURIComponent(path), {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/octet-stream' },
-      body: file,
-    }).then(response => response.json());
-    state.sha256 = data.sha256 || state.sha256;
-    state.size = Number(data.size) || state.size;
-    const entry = state.files.find(item => item.name === path);
-    if (entry) entry.size = file.size;
-    renderThemeFilesMeta();
-    openThemeFile(path);
-    toast('图片已替换，文件名保持不变');
-  } catch (error) {
-    toast(error.message, 'error');
-  }
-}
-
 async function downloadThemeFiles() {
   const state = themeFilesState;
   try {
@@ -2406,6 +2464,247 @@ $('themeFilesDialog').addEventListener('click', event => {
   if (event.target === $('themeFilesDialog')) $('themeFilesDialog').close();
 });
 
+// ── Admin direct messages ──────────────────────────────────────────
+const dmState = { userId: null, user: null, messages: [], conversations: [] };
+let pendingDmUser = null;
+
+function updateDmBadge(unread) {
+  const count = Number(unread) || 0;
+  notifyCounts.dm = count;
+  renderNotifications();
+  const nav = $('dmNavBadge');
+  if (nav) {
+    nav.textContent = count > 99 ? '99+' : String(count);
+    nav.style.display = count > 0 ? 'inline-block' : 'none';
+  }
+  const pill = $('dmUnreadPill');
+  if (pill) pill.textContent = count + ' 条未读';
+}
+
+async function refreshDmBadge() {
+  try {
+    const data = await api('/dm/unread');
+    updateDmBadge(data.unread);
+  } catch (_) {}
+}
+
+function setNavBadge(id, value) {
+  const el = $(id);
+  if (!el) return;
+  const count = Math.max(0, Number(value) || 0);
+  el.textContent = count > 99 ? '99+' : String(count);
+  el.style.display = count > 0 ? 'inline-block' : 'none';
+}
+
+async function refreshAdminCounters() {
+  try {
+    const data = await api('/counters');
+    notifyCounts.themes = Number(data.pendingThemes || 0);
+    notifyCounts.requests = Number(data.authorRequests || 0);
+    notifyCounts.dm = Number(data.dmUnread || 0);
+    setNavBadge('pendingNavBadge', notifyCounts.themes);
+    setNavBadge('usersNavBadge', notifyCounts.requests);
+    setNavBadge('dmNavBadge', notifyCounts.dm);
+    setNavBadge('reportsNavBadge', Number(data.pendingReports || 0));
+    setNavBadge('followsNavBadge', Number(data.followsTotal || 0));
+    if (notifyPrevious === null) {
+      // Initial page load: treat everything currently pending as new so the
+      // login/refresh toast includes pending themes, author requests and DMs.
+      notifyPrevious = { ...notifySeen };
+    }
+    renderNotifications();
+  } catch (_) {}
+}
+
+// ── Real-time console events (DM + counters) ───────────────────────
+let adminSocket = null;
+let adminSocketRetry = null;
+let adminDmRefreshTimer = null;
+
+function scheduleAdminDmRefresh(userId) {
+  if (adminDmRefreshTimer) clearTimeout(adminDmRefreshTimer);
+  adminDmRefreshTimer = setTimeout(async () => {
+    await refreshAdminCounters();
+    if (currentPage === 'dm') {
+      if (userId && dmState.userId === userId) {
+        await selectDmUser(userId);
+      } else {
+        await loadDmConversations();
+      }
+    }
+  }, 250);
+}
+
+function connectAdminEvents() {
+  if (adminSocket && (adminSocket.readyState === WebSocket.OPEN || adminSocket.readyState === WebSocket.CONNECTING)) return;
+  const scheme = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  try {
+    adminSocket = new WebSocket(`${scheme}//${location.host}/admin/api/events`);
+  } catch (_) { return; }
+  adminSocket.addEventListener('open', () => {
+    if (adminSocketRetry) { clearTimeout(adminSocketRetry); adminSocketRetry = null; }
+    refreshAdminCounters();
+  });
+  adminSocket.addEventListener('message', event => {
+    let payload;
+    try { payload = JSON.parse(event.data); } catch (_) { return; }
+    if (payload.type === 'dm' || payload.type === 'dm-thread') {
+      scheduleAdminDmRefresh(payload.userId || '');
+    }
+  });
+  adminSocket.addEventListener('close', () => {
+    adminSocket = null;
+    if (adminSocketRetry) clearTimeout(adminSocketRetry);
+    adminSocketRetry = setTimeout(connectAdminEvents, 5000);
+  });
+  adminSocket.addEventListener('error', () => {
+    try { adminSocket.close(); } catch (_) {}
+  });
+}
+
+function dmConversationHtml(item) {
+  const name = item.displayName || item.username || '用户';
+  const initial = String(name).trim().slice(0, 1).toUpperCase() || 'U';
+  const unread = Number(item.unread) || 0;
+  return `<button type="button" class="dm-conversation ${dmState.userId === item.userId ? 'active' : ''}" data-dm-select="${escapeHtml(item.userId)}">
+    <span class="avatar-small">${escapeHtml(initial)}</span>
+    <span class="dm-conversation-main"><b>${escapeHtml(name)}</b><span>@${escapeHtml(item.username || '—')} · ${escapeHtml(item.lastBody || '')}</span></span>
+    ${unread ? `<span class="unread">${unread > 99 ? '99+' : unread}</span>` : ''}
+  </button>`;
+}
+
+function renderDmConversations() {
+  const list = $('dmConversationList');
+  if (!list) return;
+  list.innerHTML = dmState.conversations.length
+    ? dmState.conversations.map(dmConversationHtml).join('')
+    : '<div class="empty">还没有用户发来私信</div>';
+  list.querySelectorAll('[data-dm-select]').forEach(button => {
+    button.addEventListener('click', () => selectDmUser(button.dataset.dmSelect));
+  });
+}
+
+function renderDmMessages() {
+  const list = $('dmMessageList');
+  if (!list) return;
+  if (!dmState.userId) {
+    list.innerHTML = '<div class="empty">选择一位用户开始私信</div>';
+    return;
+  }
+  list.innerHTML = dmState.messages.length
+    ? dmState.messages.map(message => {
+      const mine = message.role === 'admin';
+      const adminName = message.senderName || '';
+      const who = mine
+        ? (adminName && adminName !== '管理员' ? '管理员-' + adminName : '管理员')
+        : (dmState.user && (dmState.user.displayName || dmState.user.username) || '用户');
+      return `<div class="dm-bubble ${mine ? 'mine' : ''}">${escapeHtml(message.body || '')}<div class="dm-bubble-meta">${escapeHtml(who)} · ${escapeHtml(formatTime(message.createdAt))}</div></div>`;
+    }).join('')
+    : '<div class="empty">还没有消息，发一条打招呼吧</div>';
+  list.scrollTop = list.scrollHeight;
+}
+
+async function loadDmConversations() {
+  try {
+    const data = await api('/dm/conversations');
+    dmState.conversations = data.conversations || [];
+    renderDmConversations();
+    updateDmBadge(data.unreadTotal);
+    if (pendingDmUser) {
+      const target = pendingDmUser;
+      pendingDmUser = null;
+      await selectDmUser(target);
+    } else if (!dmState.userId && dmState.conversations.length === 1) {
+      await selectDmUser(dmState.conversations[0].userId);
+    }
+  } catch (error) {
+    $('dmConversationList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+async function selectDmUser(userId) {
+  if (!userId) return;
+  dmState.userId = userId;
+  $('dmPeerTitle').textContent = '正在加载…';
+  $('dmPeerMeta').textContent = '';
+  $('dmMessageList').innerHTML = '<div class="empty">正在加载私信…</div>';
+  try {
+    const data = await api('/dm/' + encodeURIComponent(userId));
+    dmState.user = data.user || null;
+    dmState.messages = data.messages || [];
+    const name = dmState.user ? (dmState.user.displayName || dmState.user.username) : userId;
+    $('dmPeerTitle').textContent = name;
+    $('dmPeerMeta').textContent = dmState.user ? '@' + (dmState.user.username || '') : '';
+    const conversation = dmState.conversations.find(item => item.userId === userId);
+    if (conversation) conversation.unread = 0;
+    renderDmConversations();
+    renderDmMessages();
+    await refreshDmBadge();
+  } catch (error) {
+    $('dmPeerTitle').textContent = '加载失败';
+    $('dmMessageList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+async function sendDmMessage() {
+  if (!dmState.userId) { toast('先选择一位用户', 'bad'); return; }
+  const input = $('dmInput');
+  const body = (input ? input.value : '').trim();
+  if (!body) { toast('消息不能为空', 'bad'); return; }
+  const button = $('dmSend');
+  if (button) button.disabled = true;
+  try {
+    await api('/dm/' + encodeURIComponent(dmState.userId) + '/send', {
+      method: 'POST',
+      body: JSON.stringify({ body }),
+    });
+    input.value = '';
+    await selectDmUser(dmState.userId);
+    toast('已发送');
+  } catch (error) {
+    toast(error.message, 'bad');
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+function openAdminDmForUser(userId) {
+  if (!userId) return;
+  if ($('themeDetailDialog') && $('themeDetailDialog').open) $('themeDetailDialog').close();
+  pendingDmUser = userId;
+  if (location.hash !== '#dm') history.pushState(null, '', '#dm');
+  showPage('dm', true);
+}
+
+async function refreshAdminDm() {
+  await loadDmConversations();
+  if (dmState.userId) {
+    const selected = dmState.conversations.find(item => item.userId === dmState.userId);
+    if (selected) {
+      await selectDmUser(dmState.userId);
+    } else {
+      dmState.userId = null;
+      $('dmPeerTitle').textContent = '选择左侧用户';
+      $('dmPeerMeta').textContent = '';
+      $('dmMessageList').innerHTML = '<div class="empty">选择一位用户开始私信</div>';
+    }
+  }
+  await refreshAdminCounters();
+}
+
+$('dmRefresh').addEventListener('click', refreshAdminDm);
+
+$('dmForm').addEventListener('submit', event => {
+  event.preventDefault();
+  sendDmMessage();
+});
+$('dmInput').addEventListener('keydown', event => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendDmMessage();
+  }
+});
+
 // ── Comment moderation ──────────────────────────────────────────────
 function commentRetentionLabel(days) {
   const value = Number(days) || 0;
@@ -2424,17 +2723,19 @@ function commentBadgesHtml(item) {
 function adminCommentItemHtml(item, readOnly = false) {
   const name = item.displayName || item.username || '匿名用户';
   const initial = String(name).trim().slice(0, 1) || '?';
+  const userAttr = item.userId ? ' data-comment-user="' + escapeHtml(item.userId) + '"' : '';
+  const themeAttr = item.themeId ? ' data-comment-theme="' + escapeHtml(item.themeId) + '"' : '';
   const avatar = item.avatarUrl
-    ? '<img class="comment-avatar" src="' + escapeHtml(item.avatarUrl) + '" alt="" loading="lazy">'
-    : '<span class="comment-avatar">' + escapeHtml(initial) + '</span>';
+    ? '<img class="comment-avatar comment-author-link" src="' + escapeHtml(item.avatarUrl) + '" alt="" loading="lazy"' + userAttr + '>'
+    : '<span class="comment-avatar comment-author-link"' + userAttr + '>' + escapeHtml(initial) + '</span>';
   return '<div class="comment-item">' +
     avatar +
     '<div class="comment-body">' +
-    '<div class="comment-meta"><b>' + escapeHtml(name) + '</b>' +
+    '<div class="comment-meta"><b class="comment-author-link"' + userAttr + '>' + escapeHtml(name) + '</b>' +
     '<span>@' + escapeHtml(item.username || '—') + '</span>' +
     commentBadgesHtml(item) +
     '<span>' + escapeHtml(formatTime(item.createdAt)) + '</span></div>' +
-    '<div class="comment-content">' + renderCommentMarkdown(item.content || '') + '</div>' +
+    '<div class="comment-content comment-theme-link"' + themeAttr + '>' + renderCommentMarkdown(item.content || '') + '</div>' +
     (readOnly ? '' : '<div class="comment-actions"><button type="button" class="danger" data-admin-comment-delete="' +
     escapeHtml(item.id) + '">删除</button></div>') +
     '</div></div>';
@@ -2549,11 +2850,6 @@ async function loadCommentsAdmin(offset = 0) {
     }
     const pill = $('commentsPill');
     if (pill) pill.textContent = adminCommentTotal + ' 条';
-    const badge = $('commentsNavBadge');
-    if (badge) {
-      badge.textContent = adminCommentTotal > 99 ? '99+' : String(adminCommentTotal);
-      badge.style.display = adminCommentTotal ? 'inline-block' : 'none';
-    }
     renderCommentsAdmin();
   } catch (error) {
     if (list) list.innerHTML = '<div class="comment-empty">' + escapeHtml(error.message) + '</div>';
@@ -2575,17 +2871,19 @@ function renderCommentsAdmin() {
     row.className = 'comment-admin-row';
     const name = item.displayName || item.username || '匿名用户';
     const initial = String(name).trim().slice(0, 1) || '?';
+    const userAttr = item.userId ? ' data-comment-user="' + escapeHtml(item.userId) + '"' : '';
+    const themeAttr = item.themeId ? ' data-comment-theme="' + escapeHtml(item.themeId) + '"' : '';
     const avatar = item.avatarUrl
-      ? '<img class="comment-avatar" src="' + escapeHtml(item.avatarUrl) + '" alt="" loading="lazy">'
-      : '<span class="comment-avatar">' + escapeHtml(initial) + '</span>';
+      ? '<img class="comment-avatar comment-author-link" src="' + escapeHtml(item.avatarUrl) + '" alt="" loading="lazy"' + userAttr + '>'
+      : '<span class="comment-avatar comment-author-link"' + userAttr + '>' + escapeHtml(initial) + '</span>';
     row.innerHTML =
-      '<div class="comment-meta">' + avatar + '<b>' + escapeHtml(name) + '</b>' +
+      '<div class="comment-meta">' + avatar + '<b class="comment-author-link"' + userAttr + '>' + escapeHtml(name) + '</b>' +
       '<span>@' + escapeHtml(item.username || '—') + '</span>' +
       commentBadgesHtml(item) +
       '<span>' + escapeHtml(item.themeName || item.themeId || '—') + '</span>' +
       '<span>' + escapeHtml(formatTime(item.createdAt)) + '</span>' +
       (item.parentId ? '<span>回复</span>' : '') + '</div>' +
-      '<div class="comment-content">' + renderCommentMarkdown(item.content || '') + '</div>' +
+      '<div class="comment-content comment-theme-link"' + themeAttr + '>' + renderCommentMarkdown(item.content || '') + '</div>' +
       '<div class="comment-actions"><button type="button" class="danger" data-admin-comment-delete="' +
       escapeHtml(item.id) + '">删除</button></div>';
     list.appendChild(row);
@@ -3504,7 +3802,7 @@ function updateUserStats(counts) {
   // author-request queue on the sidebar badge.
   const pendingTotal = Number(authorRequests || 0);
   badge.textContent = pendingTotal > 99 ? '99+' : String(pendingTotal);
-  badge.style.display = pendingTotal > 0 ? '' : 'none';
+  badge.style.display = pendingTotal > 0 ? 'inline-block' : 'none';
   if (counts && (counts.pending != null || counts.authorRequests != null)) {
     notifyCounts.requests = Number(counts.authorRequests || 0);
     if (counts.disabled != null) notifyCounts.disabled = Number(counts.disabled || 0);
@@ -3513,8 +3811,8 @@ function updateUserStats(counts) {
 }
 
 const NOTIFY_KEY = 'sukisu-admin-seen-v1';
-const notifyCounts = { themes: 0, requests: 0, disabled: 0 };
-let notifySeen = { themes: 0, requests: 0 };
+const notifyCounts = { themes: 0, requests: 0, disabled: 0, dm: 0 };
+let notifySeen = { themes: 0, requests: 0, dm: 0 };
 let notifyPrevious = null;
 try {
   const saved = JSON.parse(localStorage.getItem(NOTIFY_KEY) || '{}');
@@ -3522,6 +3820,7 @@ try {
     notifySeen = {
       themes: Number(saved.themes || 0),
       requests: Number(saved.requests || 0),
+      dm: Number(saved.dm || 0),
     };
   }
 } catch (_) {}
@@ -3530,12 +3829,13 @@ function unseenNotifications() {
   return {
     themes: Math.max(0, notifyCounts.themes - notifySeen.themes),
     requests: Math.max(0, notifyCounts.requests - notifySeen.requests),
+    dm: Math.max(0, notifyCounts.dm - notifySeen.dm),
   };
 }
 
 function renderNotifications() {
   let seenChanged = false;
-  ['themes', 'requests'].forEach(key => {
+  ['themes', 'requests', 'dm'].forEach(key => {
     if (notifyCounts[key] < notifySeen[key]) {
       notifySeen[key] = notifyCounts[key];
       seenChanged = true;
@@ -3545,8 +3845,8 @@ function renderNotifications() {
     try { localStorage.setItem(NOTIFY_KEY, JSON.stringify(notifySeen)); } catch (_) {}
   }
   const unseen = unseenNotifications();
-  const unseenTotal = unseen.themes + unseen.requests;
-  const total = notifyCounts.themes + notifyCounts.requests;
+  const unseenTotal = unseen.themes + unseen.requests + unseen.dm;
+  const total = notifyCounts.themes + notifyCounts.requests + notifyCounts.dm;
   const badge = $('notifyBadge');
   if (badge) {
     badge.textContent = unseenTotal > 99 ? '99+' : String(unseenTotal);
@@ -3560,6 +3860,7 @@ function renderNotifications() {
   };
   setText('notifyPending', notifyCounts.themes);
   setText('notifyRequests', notifyCounts.requests);
+  setText('notifyDm', notifyCounts.dm);
   const empty = $('notifyEmpty');
   if (empty) empty.hidden = total > 0;
   const panel = $('notifyPanel');
@@ -3576,6 +3877,7 @@ function renderNotifications() {
     const changes = [];
     if (notifyCounts.themes > notifyPrevious.themes) changes.push(`有 ${notifyCounts.themes - notifyPrevious.themes} 个新的待审核主题`);
     if (notifyCounts.requests > notifyPrevious.requests) changes.push(`有 ${notifyCounts.requests - notifyPrevious.requests} 份新的作者申请`);
+    if (notifyCounts.dm > notifyPrevious.dm) changes.push(`有 ${notifyCounts.dm - notifyPrevious.dm} 条新的用户私信`);
     if (changes.length) toast(changes.join('；'));
   }
   notifyPrevious = { ...notifyCounts };
@@ -3585,6 +3887,7 @@ function markNotificationsSeen() {
   notifySeen = {
     themes: notifyCounts.themes,
     requests: notifyCounts.requests,
+    dm: notifyCounts.dm,
   };
   try { localStorage.setItem(NOTIFY_KEY, JSON.stringify(notifySeen)); } catch (_) {}
   renderNotifications();
@@ -3677,6 +3980,13 @@ function renderUsers(users) {
       add('启用', 'enable');
       if (user.role !== 'admin') add('删除', 'delete', 'danger');
     }
+    const dmButton = document.createElement('button');
+    dmButton.textContent = '私信';
+    dmButton.addEventListener('click', event => {
+      event.stopPropagation();
+      openAdminDmForUser(user.id);
+    });
+    actions.appendChild(dmButton);
     add('详情', 'detail', 'primary');
     row.addEventListener('click', () => openUserDetailPage(user.id));
     actions.addEventListener('click', event => event.stopPropagation());
@@ -3795,6 +4105,7 @@ async function loadUserDetail(id) {
         <button id="detailApprove">通过审核</button>
         ${superLocked ? '' : '<button id="detailDisable">禁用账号</button>'}
         <button id="detailEnable">启用账号</button>
+        <button id="detailDm">私信该用户</button>
         ${superLocked ? '' : '<button id="detailResetPassword">重置密码</button>'}
         ${superLocked ? '' : '<button id="detailResetAuthor">重置作者 ID</button>'}
         ${superLocked ? '' : '<button id="detailBindAuthor">绑定作者</button>'}
@@ -3806,6 +4117,7 @@ async function loadUserDetail(id) {
     $('detailApprove').addEventListener('click', () => detailAction('approve'));
     $('detailDisable')?.addEventListener('click', () => detailAction('disable'));
     $('detailEnable')?.addEventListener('click', () => detailAction('enable'));
+    $('detailDm')?.addEventListener('click', () => openAdminDmForUser(user.id));
     $('detailResetPassword')?.addEventListener('click', () => detailAction('reset-password'));
     $('detailResetAuthor')?.addEventListener('click', () => resetAuthor(id));
     $('detailBindAuthor')?.addEventListener('click', () => bindAuthor(id));
@@ -3898,10 +4210,10 @@ function renderAuthorRequests(requests) {
       <p class="hint" style="margin:4px 0 0">${avatar} ${escapeHtml(item.userDisplayName || item.username)} · @${escapeHtml(item.username)}</p></div>${userPill(item.status)}</div>
       <div class="meta">
         <div class="kv"><span>作者名称</span><b>${escapeHtml(item.displayName || '–')}</b></div>
-        <div class="kv hash-row"><span>作者 hash</span><b class="author-fp">${escapeHtml(item.authorHash || '–')}</b></div>
         <div class="kv"><span>申请时间</span><b>${escapeHtml(formatTime(item.createdAt))}</b></div>
-        ${item.note ? `<div class="kv"><span>申请说明</span><b>${escapeHtml(item.note)}</b></div>` : ''}
-        ${item.lastRevokeReason ? `<div class="kv"><span>上次撤销原因</span><b>${escapeHtml(item.lastRevokeReason)}</b></div>` : ''}
+        <div class="kv hash-row"><span>作者 hash</span><b class="author-fp">${escapeHtml(item.authorHash || '–')}</b></div>
+        ${item.note ? `<div class="kv full-row"><span>申请说明</span><b>${escapeHtml(item.note)}</b></div>` : ''}
+        ${item.lastRevokeReason ? `<div class="kv full-row"><span>上次撤销原因</span><b>${escapeHtml(item.lastRevokeReason)}</b></div>` : ''}
       </div>
       <div class="row" style="margin-top:12px">
         <button class="primary" data-action="approve">通过</button>
@@ -4000,10 +4312,10 @@ function renderAutoAuthorRequests(requests) {
       <p class="hint" style="margin:4px 0 0">${avatar} ${escapeHtml(item.userDisplayName || item.username)} · @${escapeHtml(item.username)}</p></div>${userPill(item.status)}</div>
       <div class="meta">
         <div class="kv"><span>作者名称</span><b>${escapeHtml(item.displayName || '–')}</b></div>
-        <div class="kv hash-row"><span>作者 hash</span><b class="author-fp">${escapeHtml(item.authorHash || '–')}</b></div>
         <div class="kv"><span>创建时间</span><b>${escapeHtml(formatTime(item.createdAt))}</b></div>
-        ${item.note && item.note !== '由投稿自动创建' ? `<div class="kv"><span>申请说明</span><b>${escapeHtml(item.note)}</b></div>` : ''}
-        ${item.lastRevokeReason ? `<div class="kv"><span>上次撤销原因</span><b>${escapeHtml(item.lastRevokeReason)}</b></div>` : ''}
+        <div class="kv hash-row"><span>作者 hash</span><b class="author-fp">${escapeHtml(item.authorHash || '–')}</b></div>
+        ${item.note && item.note !== '由投稿自动创建' ? `<div class="kv full-row"><span>申请说明</span><b>${escapeHtml(item.note)}</b></div>` : ''}
+        ${item.lastRevokeReason ? `<div class="kv full-row"><span>上次撤销原因</span><b>${escapeHtml(item.lastRevokeReason)}</b></div>` : ''}
       </div>
       <div class="row" style="margin-top:12px">
         <button class="primary" data-action="approve">通过</button>
@@ -4290,6 +4602,7 @@ document.querySelectorAll('[data-user-status]').forEach(button => {
 });
 
 let followsCache = [];
+let followView = 'list';
 
 async function loadFollows() {
   try {
@@ -4297,16 +4610,19 @@ async function loadFollows() {
     followsCache = data.follows || [];
     const total = data.total || followsCache.length;
     $('followsPill').textContent = total + ' 条';
-    if ($('followsNavBadge')) $('followsNavBadge').textContent = total;
+    if ($('followsNavBadge')) {
+      $('followsNavBadge').textContent = total > 99 ? '99+' : String(total);
+      $('followsNavBadge').style.display = total > 0 ? 'inline-block' : 'none';
+    }
     renderFollows();
   } catch (error) {
     toast('关注关系读取失败：' + error.message, 'bad');
   }
 }
 
-function renderFollows() {
+function followRowsFiltered() {
   const query = ($('followSearch').value || '').trim().toLowerCase();
-  const rows = followsCache.filter(item => {
+  return followsCache.filter(item => {
     if (!query) return true;
     return [
       item.followerUsername,
@@ -4316,16 +4632,327 @@ function renderFollows() {
       item.ownerUsername,
     ].some(value => (value || '').toLowerCase().includes(query));
   });
-  $('followRows').innerHTML = rows.map(item => {
-    const follower = '@' + escapeHtml(item.followerUsername || '') +
-      (item.followerDisplayName ? ' · ' + escapeHtml(item.followerDisplayName) : '');
-    const author = item.authorName || item.authorHash || '–';
-    const owner = item.ownerUsername ? '@' + escapeHtml(item.ownerUsername) : '–';
-    return '<tr><td>' + follower + '</td><td>' + escapeHtml(author) + '</td><td>' + owner +
-      '</td><td>' + escapeHtml(formatTime(item.createdAt)) + '</td></tr>';
-  }).join('');
-  $('followEmpty').classList.toggle('hidden', rows.length > 0);
 }
+
+function shortHash(value) {
+  let hash = 0;
+  const text = String(value || '');
+  for (let i = 0; i < text.length; i += 1) hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+  return hash;
+}
+
+let followGraphState = null;
+
+function stopFollowGraph() {
+  followGraphState = null;
+}
+
+function renderFollowGraph(rows) {
+  const graph = $('followGraph');
+  if (!graph) return;
+  stopFollowGraph();
+  if (!rows.length) {
+    graph.innerHTML = '';
+    $('followGraphEmpty').classList.remove('hidden');
+    return;
+  }
+  $('followGraphEmpty').classList.add('hidden');
+
+  const width = 1000;
+  const height = 720;
+  const nodes = new Map();
+  const links = [];
+  const addNode = (key, type, label, sub) => {
+    let node = nodes.get(key);
+    if (!node) {
+      node = { key, type, label, sub, degree: 0, vx: 0, vy: 0 };
+      nodes.set(key, node);
+    }
+    return node;
+  };
+  rows.forEach(item => {
+    const user = addNode('u:' + (item.followerId || item.followerUsername || item.followerDisplayName || '—'), 'user',
+      item.followerDisplayName || ('@' + (item.followerUsername || '—')), item.followerUsername || '');
+    const author = addNode('a:' + (item.authorHash || item.authorName || '—'), 'author',
+      item.authorName || (item.authorHash ? item.authorHash.slice(0, 10) : '—'), item.authorHash || '');
+    if (item.ownerUsername) {
+      const owner = addNode('o:' + (item.ownerId || item.ownerUsername), 'owner', '@' + item.ownerUsername, item.ownerUsername);
+      links.push({ source: author, target: owner });
+      author.degree += 1;
+      owner.degree += 1;
+    }
+    links.push({ source: user, target: author });
+    user.degree += 1;
+    author.degree += 1;
+  });
+
+  const groups = { user: [], author: [], owner: [] };
+  nodes.forEach(node => groups[node.type].push(node));
+  const anchors = { user: 190, author: 500, owner: 810 };
+  Object.keys(groups).forEach(type => {
+    const list = groups[type].sort((a, b) => b.degree - a.degree);
+    if (type === 'user') {
+      // Green follower dots are much more numerous than authors. Lay them out
+      // in short columns instead of one overlapping vertical line.
+      const columns = Math.min(3, Math.max(1, Math.ceil(list.length / 24)));
+      const rows = Math.max(1, Math.ceil(list.length / columns));
+      const spread = Math.min(650, Math.max(180, (rows - 1) * 30));
+      list.forEach((node, index) => {
+        const column = index % columns;
+        const row = Math.floor(index / columns);
+        node.x = anchors.user - 80 + column * 80 + (shortHash(node.key) % 9) - 4;
+        node.y = height / 2 + (row - (rows - 1) / 2) * (spread / Math.max(1, rows - 1));
+        node.tier = 3;
+      });
+    } else {
+      const spread = Math.min(650, Math.max(220, (list.length - 1) * 44));
+      list.forEach((node, index) => {
+        node.x = anchors[type] + (shortHash(node.key) % 18) - 9;
+        node.y = height / 2 + (index - (list.length - 1) / 2) * (spread / Math.max(1, list.length - 1));
+        node.tier = type === 'author' ? 1 : 2;
+      });
+    }
+  });
+
+  graph.innerHTML = `<div class="graph-stage">
+    <svg class="graph-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" aria-label="关注关系网">
+      <g class="graph-viewport">
+        <g class="graph-links"></g>
+        <g class="graph-nodes"></g>
+      </g>
+    </svg>
+    <div class="graph-tools" role="group" aria-label="关系网缩放">
+      <button type="button" data-graph-action="zoom-in" title="放大">＋</button>
+      <button type="button" data-graph-action="zoom-out" title="缩小">－</button>
+      <button type="button" data-graph-action="reset" title="重置视图">重置</button>
+      <span class="graph-zoom-label">100%</span>
+    </div>
+  </div>`;
+
+  const svg = graph.querySelector('.graph-svg');
+  const viewport = graph.querySelector('.graph-viewport');
+  const linksLayer = graph.querySelector('.graph-links');
+  const nodesLayer = graph.querySelector('.graph-nodes');
+
+  links.forEach(link => {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    line.setAttribute('class', 'graph-link');
+    line.setAttribute('fill', 'none');
+    link.el = line;
+    link.bend = ((shortHash(link.source.key + link.target.key) % 21) - 10) / 30;
+    linksLayer.appendChild(line);
+  });
+  nodes.forEach(node => {
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute('class', 'graph-node type-' + node.type);
+    group.dataset.nodeKey = node.key;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    const radius = 4.5 + Math.min(12, Math.sqrt(node.degree) * 2.5);
+    node.radius = radius;
+    circle.setAttribute('r', radius.toFixed(1));
+    circle.setAttribute('fill', node.type === 'user' ? '#2f9e8f' : node.type === 'author' ? '#4b7bec' : '#e0a43a');
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.textContent = node.label.length > 16 ? node.label.slice(0, 15) + '…' : node.label;
+    label.setAttribute('font-size', '10.5');
+    label.setAttribute('dominant-baseline', 'middle');
+    // Tier 1/2 labels are visible at 100%; green follower labels appear only
+    // after zooming in (or on hover), so the initial view stays legible.
+    label.setAttribute('class', 'graph-label' + (node.tier <= 2 ? '' : ' secondary-label'));
+    node.labelEl = label;
+    const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+    title.textContent = node.label + (node.sub ? '\n@' + node.sub : '');
+    group.append(circle, label, title);
+    node.el = group;
+    nodesLayer.appendChild(group);
+  });
+
+  const state = {
+    svg, viewport, nodes: Array.from(nodes.values()), links, width, height,
+    view: { x: 0, y: 0, zoom: 1 },
+    dragNode: null,
+    panning: null,
+  };
+  followGraphState = state;
+
+  const updateLabelVisibility = () => {
+    const visibleTier = state.view.zoom >= 1.18 ? 3 : state.view.zoom >= 0.9 ? 2 : 1;
+    state.nodes.forEach(node => {
+      node.labelEl.classList.toggle('secondary-label', node.tier > visibleTier);
+    });
+  };
+
+  const applyView = () => {
+    viewport.setAttribute('transform',
+      `translate(${state.view.x.toFixed(2)} ${state.view.y.toFixed(2)}) scale(${state.view.zoom.toFixed(3)})`);
+    const zoomLabel = graph.querySelector('.graph-zoom-label');
+    if (zoomLabel) zoomLabel.textContent = Math.round(state.view.zoom * 100) + '%';
+    updateLabelVisibility();
+  };
+  const updatePositions = () => {
+    state.links.forEach(link => {
+      const a = link.source;
+      const b = link.target;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const bend = link.bend || 0;
+      const cx = (a.x + b.x) / 2 - (dy / dist) * dist * bend;
+      const cy = (a.y + b.y) / 2 + (dx / dist) * dist * bend;
+      link.el.setAttribute('d',
+        `M ${a.x.toFixed(1)} ${a.y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`);
+    });
+    state.nodes.forEach(node => {
+      node.el.setAttribute('transform', `translate(${node.x.toFixed(2)} ${node.y.toFixed(2)})`);
+      const alignRight = node.type === 'author'
+        ? true
+        : node.type === 'owner'
+          ? false
+          : node.x > state.width - 190;
+      node.labelEl.setAttribute('x', (alignRight ? -node.radius - 6 : node.radius + 7).toFixed(1));
+      node.labelEl.setAttribute('text-anchor', alignRight ? 'end' : 'start');
+    });
+  };
+
+  const screenToSvg = (clientX, clientY) => {
+    const point = svg.createSVGPoint();
+    point.x = clientX;
+    point.y = clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : { x: 0, y: 0 };
+  };
+  const screenToWorld = (clientX, clientY) => {
+    const point = svg.createSVGPoint();
+    point.x = clientX;
+    point.y = clientY;
+    const matrix = state.viewport.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : { x: 0, y: 0 };
+  };
+
+  svg.addEventListener('pointerdown', event => {
+    const nodeEl = event.target.closest('.graph-node');
+    if (nodeEl) {
+      const node = state.nodes.find(item => item.key === nodeEl.dataset.nodeKey);
+      if (!node) return;
+      node.dragging = true;
+      state.dragNode = node;
+      const point = screenToWorld(event.clientX, event.clientY);
+      node.x = point.x;
+      node.y = point.y;
+      svg.setPointerCapture(event.pointerId);
+      svg.classList.add('is-dragging');
+      event.preventDefault();
+      return;
+    }
+    const startSvg = screenToSvg(event.clientX, event.clientY);
+    state.panning = { x: startSvg.x, y: startSvg.y, viewX: state.view.x, viewY: state.view.y };
+    svg.setPointerCapture(event.pointerId);
+    svg.classList.add('is-panning');
+  });
+  svg.addEventListener('pointermove', event => {
+    if (state.dragNode) {
+      const point = screenToWorld(event.clientX, event.clientY);
+      state.dragNode.x = Math.max(24, Math.min(state.width - 24, point.x));
+      state.dragNode.y = Math.max(20, Math.min(state.height - 20, point.y));
+      updatePositions();
+      return;
+    }
+    if (state.panning) {
+      const current = screenToSvg(event.clientX, event.clientY);
+      state.view.x = state.panning.viewX + current.x - state.panning.x;
+      state.view.y = state.panning.viewY + current.y - state.panning.y;
+      applyView();
+      return;
+    }
+  });
+  const endDrag = () => {
+    state.nodes.forEach(node => { node.dragging = false; });
+    state.dragNode = null;
+    state.panning = null;
+    svg.classList.remove('is-dragging', 'is-panning');
+  };
+  svg.addEventListener('pointerup', endDrag);
+  svg.addEventListener('pointercancel', endDrag);
+  const zoomAt = (clientX, clientY, factor) => {
+    const before = screenToWorld(clientX, clientY);
+    state.view.zoom = Math.max(0.4, Math.min(3.2, state.view.zoom * factor));
+    const svgPoint = svg.createSVGPoint();
+    svgPoint.x = clientX;
+    svgPoint.y = clientY;
+    const matrix = svg.getScreenCTM();
+    const screen = matrix ? svgPoint.matrixTransform(matrix.inverse()) : { x: 0, y: 0 };
+    state.view.x = screen.x - before.x * state.view.zoom;
+    state.view.y = screen.y - before.y * state.view.zoom;
+    applyView();
+  };
+  svg.addEventListener('wheel', event => {
+    event.preventDefault();
+    zoomAt(event.clientX, event.clientY, event.deltaY < 0 ? 1.12 : 0.89);
+  }, { passive: false });
+  svg.addEventListener('dblclick', () => {
+    state.view = { x: 0, y: 0, zoom: 1 };
+    applyView();
+  });
+
+  const zoomCenter = factor => {
+    const rect = svg.getBoundingClientRect();
+    zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, factor);
+  };
+  graph.querySelector('[data-graph-action="zoom-in"]').addEventListener('click', () => zoomCenter(1.2));
+  graph.querySelector('[data-graph-action="zoom-out"]').addEventListener('click', () => zoomCenter(0.84));
+  graph.querySelector('[data-graph-action="reset"]').addEventListener('click', () => {
+    state.view = { x: 0, y: 0, zoom: 1 };
+    applyView();
+  });
+
+  applyView();
+  updatePositions();
+}
+
+function renderFollows() {
+  const rows = followRowsFiltered();
+  const graphMode = followView === 'graph';
+  $('followListCard').classList.toggle('hidden', graphMode);
+  $('followGraphCard').classList.toggle('hidden', !graphMode);
+  if (graphMode) {
+    renderFollowGraph(rows);
+  } else {
+    stopFollowGraph();
+    $('followRows').innerHTML = rows.map(item => {
+      const followerText = '@' + escapeHtml(item.followerUsername || '') +
+        (item.followerDisplayName ? ' · ' + escapeHtml(item.followerDisplayName) : '');
+      const follower = item.followerId
+        ? `<button type="button" class="inline-user" data-follow-user="${escapeHtml(item.followerId)}">${followerText}</button>`
+        : followerText;
+      const authorText = escapeHtml(item.authorName || item.authorHash || '–');
+      const author = item.ownerId
+        ? `<button type="button" class="inline-user" data-follow-user="${escapeHtml(item.ownerId)}">${authorText}</button>`
+        : authorText;
+      const ownerText = '@' + escapeHtml(item.ownerUsername || '');
+      const owner = item.ownerId
+        ? `<button type="button" class="inline-user" data-follow-user="${escapeHtml(item.ownerId)}">${ownerText}</button>`
+        : (item.ownerUsername ? ownerText : '–');
+      return '<tr><td>' + follower + '</td><td>' + author + '</td><td>' + owner +
+        '</td><td>' + escapeHtml(formatTime(item.createdAt)) + '</td></tr>';
+    }).join('');
+    $('followEmpty').classList.toggle('hidden', rows.length > 0);
+  }
+}
+
+$('followRows').addEventListener('click', event => {
+  const button = event.target.closest('[data-follow-user]');
+  if (!button) return;
+  openUserDetailPage(button.dataset.followUser);
+});
+
+document.querySelectorAll('[data-follow-view]').forEach(button => {
+  button.addEventListener('click', () => {
+    followView = button.dataset.followView === 'graph' ? 'graph' : 'list';
+    document.querySelectorAll('[data-follow-view]').forEach(item => {
+      item.classList.toggle('active', item.dataset.followView === followView);
+    });
+    renderFollows();
+  });
+});
 
 if ($('followSearch')) $('followSearch').addEventListener('input', renderFollows);
 
@@ -5645,13 +6272,13 @@ async function loadPerformanceStats() {
   } catch (_) {}
 }
 
-async function loadCurrentPageData() {
+async function loadCurrentPageData(skipComments = false) {
   if (currentPage === 'themes') await loadThemes();
   if (currentPage === 'authors') await loadAuthors();
   if (currentPage === 'pending') await loadPending();
   if (currentPage === 'users') await loadUsers();
   if (currentPage === 'follows') await loadFollows();
-  if (currentPage === 'comments') await loadCommentsAdmin(adminCommentOffset);
+  if (currentPage === 'comments' && !skipComments) await loadCommentsAdmin(adminCommentOffset);
   if (currentPage === 'community') await loadCommunityAdmin();
   if (currentPage === 'mirrors') await loadMirrorHealth();
   if (currentPage === 'performance') await loadPerformanceStats();
@@ -5663,6 +6290,7 @@ function restartRefreshTimer() {
   refreshTimer = setInterval(() => {
     if (document.hidden) return;
     refresh(true);
+    refreshAdminCounters();
   }, Math.max(5000, pollIntervalMs));
   if (performanceStatsTimer) clearInterval(performanceStatsTimer);
   performanceStatsTimer = setInterval(() => {
@@ -5688,7 +6316,7 @@ async function refresh(silent = false, includePage = true) {
   if (!silent) btn.classList.add('spin');
   try {
     render(await api('/status'));
-    if (includePage) await loadCurrentPageData();
+    if (includePage) await loadCurrentPageData(silent);
     if (includePage && currentPage === 'mirrors') await loadDistribution();
   } catch (error) {
     $('topStatus').textContent = '连接失败';
@@ -6131,12 +6759,63 @@ $('sitesBootstrap').addEventListener('submit', async event => {
   } catch(e) {toast(e.message,'bad');} finally {button.disabled=false;}
 });
 
+// ── Site announcement (admin editor) ───────────────────────────────
+let announcementVersion = 0;
+
+async function loadAnnouncementSettings() {
+  try {
+    const data = await api('/announcement');
+    announcementVersion = Number(data.version) || 0;
+    $('announcementContent').value = data.content || '';
+    $('announcementMeta').textContent = data.content
+      ? `当前版本 v${announcementVersion} · 最近更新 ${formatTime(data.updatedAt)}`
+      : '当前公告为空，用户不会看到公告弹窗。';
+  } catch (error) {
+    $('announcementMeta').textContent = '公告读取失败：' + error.message;
+  }
+}
+
+async function saveAnnouncementContent(content) {
+  const state = $('announcementState');
+  state.textContent = '正在保存…';
+  try {
+    const data = await api('/announcement', {
+      method: 'POST',
+      body: JSON.stringify({ content }),
+    });
+    announcementVersion = Number(data.version) || 0;
+    $('announcementContent').value = data.content || '';
+    $('announcementMeta').textContent = data.content
+      ? `当前版本 v${announcementVersion} · 最近更新 ${formatTime(data.updatedAt)}`
+      : '当前公告为空，用户不会看到公告弹窗。';
+    state.textContent = data.content ? '已保存，新版本会向未读用户弹窗' : '已清空，公告弹窗关闭';
+    toast(data.content ? '公告已保存' : '公告已清空');
+  } catch (error) {
+    state.textContent = '';
+    toast(error.message, 'bad');
+  }
+}
+
+$('saveAnnouncement').addEventListener('click', () => {
+  saveAnnouncementContent($('announcementContent').value);
+});
+$('clearAnnouncement').addEventListener('click', () => {
+  if (!confirm('清空公告并关闭所有用户的公告弹窗？')) return;
+  saveAnnouncementContent('');
+});
+
 const PAGE_GUIDES = {
   overview: {
     title: '概览',
     what: '站点运行状态的首页，汇总主题数量、下载量、访问令牌、服务状态和存储用量。',
     abilities: ['查看核心指标和热门主题', '检查令牌、服务与存储状态', '快速进入主题管理、待审核和设置'],
     steps: ['先看服务状态和存储用量', '点击卡片进入对应模块', '定期用刷新按钮更新状态'],
+  },
+  dm: {
+    title: '用户私信',
+    what: '管理员与注册用户的一对一私信。用户从用户中心发起，管理员在这里查看和回复。',
+    abilities: ['查看所有用户会话与未读数', '回复用户私信', '从用户列表或用户详情直接打开私信'],
+    steps: ['在左侧选择会话', '输入回复并发送', '用户中心「消息 · 管理员私信」查看回复'],
   },
   users: {
     title: '用户与作者',
@@ -6263,6 +6942,7 @@ const PAGE_LABELS = {
   follows: 'Follows',
   pending: 'Review queue',
   comments: 'Comments',
+  dm: 'Direct messages',
   community: 'Reports & appeals',
   mirrors: 'Distributed delivery',
   authors: 'Author licenses',
@@ -6283,6 +6963,7 @@ const PAGE_TITLES = {
   'user-detail': '用户详情',
   follows: '关注关系',
   pending: '待审核投稿',
+  dm: '用户私信',
   comments: '评论管理',
   community: '举报与申诉',
   mirrors: '分布式分发',
@@ -6304,6 +6985,7 @@ const PAGE_LEADS = {
   'user-detail': '查看用户资料、作者身份、投稿记录和账号操作。',
   follows: '查看关注关系、被关注的作者以及作者归属账号。',
   pending: '检查投稿预览、作者信息与包内容，通过后立即写入 catalog。',
+  dm: '与注册用户一对一沟通，查看未读消息并回复。',
   comments: '查看所有主题留言与私密留言，删除单条、按主题清理或设置自动清理天数。',
   community: '审核主题举报与作者申诉，保存处理理由。',
   mirrors: '自建 CDN、主题同步与节点管理。',
@@ -6348,7 +7030,7 @@ function showPage(id, smooth = false) {
   if (lead && PAGE_LEADS[page]) lead.textContent = PAGE_LEADS[page];
   renderPageGuide(page);
   if (page === 'storage') { loadStorage(); loadLocations(); }
-  if (page === 'settings') { loadLocations(); loadTokens(); }
+  if (page === 'settings') { loadLocations(); loadTokens(); loadAnnouncementSettings(); }
   if (page === 'themes') { switchThemeTab(requestedThemeTab || 'list'); loadThemes(); loadAuthors(); }
   if (page === 'pending') loadPending();
   if (page === 'authors') loadAuthors();
@@ -6356,6 +7038,7 @@ function showPage(id, smooth = false) {
   if (page === 'user-detail' && selectedUserId) loadUserDetail(selectedUserId);
   if (page === 'follows') loadFollows();
   if (page === 'comments') loadCommentsAdmin(0);
+  if (page === 'dm') loadDmConversations();
   if (page === 'community') loadCommunityAdmin();
   if (page === 'mirrors') loadMirrorHealth();
   if (page === 'network') loadNetwork();
@@ -7619,9 +8302,16 @@ if ($('apiLogDialog')) {
 (async () => {
   if (!(await loadSession())) return;
   applyTheme(document.documentElement.dataset.theme || 'dark');
+  await refreshAdminCounters();
   pageFromHash();
   refresh(false, false);
+  refreshDmBadge();
+  connectAdminEvents();
   restartRefreshTimer();
+  window.addEventListener('focus', refreshAdminCounters);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refreshAdminCounters();
+  });
 })();
 </script>
 </body>

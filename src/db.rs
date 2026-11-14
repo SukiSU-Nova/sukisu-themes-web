@@ -229,6 +229,36 @@ CREATE TABLE IF NOT EXISTS theme_comment_mentions (
 );
 CREATE INDEX IF NOT EXISTS theme_comment_mentions_user_idx
     ON theme_comment_mentions(user_id);
+
+CREATE TABLE IF NOT EXISTS user_dm_messages (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    sender_role TEXT NOT NULL,
+    sender_id TEXT,
+    sender_name TEXT NOT NULL DEFAULT '',
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    read_by_admin INTEGER NOT NULL DEFAULT 0,
+    read_by_user INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS user_dm_messages_user_idx
+    ON user_dm_messages(user_id, created_at);
+CREATE INDEX IF NOT EXISTS user_dm_messages_unread_idx
+    ON user_dm_messages(sender_role, read_by_admin, read_by_user);
+CREATE TABLE IF NOT EXISTS site_announcement (
+    id INTEGER PRIMARY KEY,
+    content TEXT NOT NULL DEFAULT '',
+    version INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+);
+INSERT OR IGNORE INTO site_announcement(id, content, version, updated_at)
+    VALUES (1, '', 0, '');
+CREATE TABLE IF NOT EXISTS announcement_reads (
+    user_id TEXT NOT NULL,
+    version INTEGER NOT NULL,
+    read_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, version)
+);
 "#;
 
 /// Account domain. This is the ATTACH main database, so `users` stays the
@@ -447,6 +477,36 @@ CREATE TABLE IF NOT EXISTS theme_comment_mentions (
 );
 CREATE INDEX IF NOT EXISTS theme_comment_mentions_user_idx
     ON theme_comment_mentions(user_id);
+
+CREATE TABLE IF NOT EXISTS user_dm_messages (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    sender_role TEXT NOT NULL,
+    sender_id TEXT,
+    sender_name TEXT NOT NULL DEFAULT '',
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    read_by_admin INTEGER NOT NULL DEFAULT 0,
+    read_by_user INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS user_dm_messages_user_idx
+    ON user_dm_messages(user_id, created_at);
+CREATE INDEX IF NOT EXISTS user_dm_messages_unread_idx
+    ON user_dm_messages(sender_role, read_by_admin, read_by_user);
+CREATE TABLE IF NOT EXISTS site_announcement (
+    id INTEGER PRIMARY KEY,
+    content TEXT NOT NULL DEFAULT '',
+    version INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+);
+INSERT OR IGNORE INTO site_announcement(id, content, version, updated_at)
+    VALUES (1, '', 0, '');
+CREATE TABLE IF NOT EXISTS announcement_reads (
+    user_id TEXT NOT NULL,
+    version INTEGER NOT NULL,
+    read_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, version)
+);
 CREATE TABLE IF NOT EXISTS user_follows (
     follower_id TEXT NOT NULL,
     author_hash TEXT NOT NULL,
@@ -666,6 +726,19 @@ fn create_schema_file(path: &Path, kind: DbKind) -> anyhow::Result<()> {
                     [],
                 )?;
             }
+        }
+    }
+    if matches!(kind, DbKind::Social) {
+        let exists: i64 = conn.query_row(
+            "SELECT COUNT(*) FROM pragma_table_info('user_dm_messages') WHERE name = 'sender_name'",
+            [],
+            |row| row.get(0),
+        )?;
+        if exists == 0 {
+            conn.execute(
+                "ALTER TABLE user_dm_messages ADD COLUMN sender_name TEXT NOT NULL DEFAULT ''",
+                [],
+            )?;
         }
     }
     if matches!(kind, DbKind::Authors) {
@@ -1107,6 +1180,36 @@ impl Database {
                 );
                 CREATE INDEX IF NOT EXISTS theme_comment_mentions_user_idx
                     ON theme_comment_mentions(user_id);
+CREATE TABLE IF NOT EXISTS user_dm_messages (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    sender_role TEXT NOT NULL,
+    sender_id TEXT,
+    sender_name TEXT NOT NULL DEFAULT '',
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    read_by_admin INTEGER NOT NULL DEFAULT 0,
+    read_by_user INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS user_dm_messages_user_idx
+    ON user_dm_messages(user_id, created_at);
+CREATE INDEX IF NOT EXISTS user_dm_messages_unread_idx
+    ON user_dm_messages(sender_role, read_by_admin, read_by_user);
+CREATE TABLE IF NOT EXISTS site_announcement (
+    id INTEGER PRIMARY KEY,
+    content TEXT NOT NULL DEFAULT '',
+    version INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+);
+INSERT OR IGNORE INTO site_announcement(id, content, version, updated_at)
+    VALUES (1, '', 0, '');
+CREATE TABLE IF NOT EXISTS announcement_reads (
+    user_id TEXT NOT NULL,
+    version INTEGER NOT NULL,
+    read_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, version)
+);
+
                 CREATE TABLE IF NOT EXISTS author_restrictions (
                     author_hash TEXT PRIMARY KEY,
                     features TEXT NOT NULL DEFAULT '',
@@ -1244,6 +1347,17 @@ impl Database {
                 )?;
                 conn.execute(
                     "UPDATE author_requests SET source = 'submit' WHERE note = '由投稿自动创建'",
+                    [],
+                )?;
+            }
+            let has_dm_sender: i64 = conn.query_row(
+                "SELECT COUNT(*) FROM pragma_table_info('user_dm_messages') WHERE name = 'sender_name'",
+                [],
+                |row| row.get(0),
+            )?;
+            if has_dm_sender == 0 {
+                conn.execute(
+                    "ALTER TABLE user_dm_messages ADD COLUMN sender_name TEXT NOT NULL DEFAULT ''",
                     [],
                 )?;
             }

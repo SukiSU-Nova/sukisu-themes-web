@@ -484,6 +484,7 @@ html[data-theme='light'] .moon{display:none}
 .side button.active{color:var(--brand);background:var(--brand-soft);font-weight:650}
 .side .side-foot{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--faint);font-size:12px;line-height:1.7;display:block}
 .view-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;margin-left:6px;padding:0 5px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-weight:700}
+.view-badge[hidden],.tab-count[hidden]{display:none!important}
 .main{min-width:0}
 .banner{display:none;margin-bottom:12px;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--brand-soft);color:var(--muted);font-size:13px;line-height:1.7}
 .banner.show{display:block}
@@ -1047,7 +1048,13 @@ input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px var(--brand-soft)}
 .user-tab-row button[data-user-status].active{background:var(--brand);border-color:var(--brand);color:var(--on-brand,#fff)}
 .user-tab-row button[data-user-status].active .tab-count{background:rgba(255,255,255,.25);color:inherit}
 /* Long author hashes must get a full row instead of a third of the card */
+.user-card .meta{gap:10px 18px;align-items:start}
+.user-card .kv{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:3px;min-width:0}
+.user-card .kv b{text-align:left;overflow-wrap:anywhere;word-break:break-word;max-width:100%}
+.user-card .kv.full-row{grid-column:1/-1}
 .user-card .kv.hash-row{grid-column:1/-1}
+.user-card .author-fp{flex:none;width:100%;word-break:break-all}
+.user-card .meta .kv span{font-size:12px;color:var(--faint)}
 .author-fp{min-width:0;flex:1;text-align:left;line-height:1.65}
 
 /* Admin: theme package file inspector */
@@ -1079,3 +1086,82 @@ input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px var(--brand-soft)}
   .theme-files-dialog{width:96vw;max-width:96vw}
 }
 .bar-chart-themes .bar-cols{grid-auto-columns:minmax(56px,1fr)}
+
+/* Admin comment targets: avatar/name → user detail, body → theme detail */
+.comment-author-link{cursor:pointer}
+.comment-author-link:hover{color:var(--brand);text-decoration:underline}
+.comment-theme-link{cursor:pointer}
+.comment-theme-link:hover{background:var(--panel-2);border-radius:6px}
+
+/* Follow relations: list / graph switch */
+.view-switch{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2)}
+.view-switch button{height:30px;padding:0 14px;border:0;border-radius:7px;background:transparent;color:var(--muted);font-size:13px}
+.view-switch button.active{background:var(--brand);color:var(--on-brand,#fff)}
+.follow-graph-card{margin-top:0}
+.follow-graph-legend{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:10px;font-size:12px;color:var(--muted)}
+.follow-graph-legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.follow-graph-legend .dot.user{background:#2f9e8f}
+.follow-graph-legend .dot.author{background:#4b7bec}
+.follow-graph-legend .dot.owner{background:#e0a43a}
+.follow-graph{width:100%;border:1px solid var(--line);border-radius:14px;background:
+ radial-gradient(circle at 50% 45%,rgba(47,158,143,.06),transparent 58%),
+ linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.03));
+ overflow:hidden}
+.graph-stage{position:relative;width:100%;height:clamp(520px,66vh,820px)}
+.graph-svg{display:block;width:100%;height:100%;touch-action:none;cursor:grab;user-select:none}
+.graph-svg.is-panning{cursor:grabbing}
+.graph-svg.is-dragging{cursor:grabbing}
+.graph-svg .graph-link{stroke:#8fa0b4;stroke-opacity:.2;stroke-width:1;vector-effect:non-scaling-stroke}
+.graph-svg .graph-node{cursor:grab}
+.graph-svg .graph-node:active{cursor:grabbing}
+.graph-svg .graph-node circle{stroke:rgba(255,255,255,.72);stroke-width:1.3;filter:drop-shadow(0 2px 6px rgba(0,0,0,.22))}
+.graph-svg .graph-node text{fill:var(--text);paint-order:stroke;stroke:var(--panel);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+.graph-svg .graph-label.secondary-label{opacity:0;transition:opacity .14s}
+.graph-svg .graph-node:hover .secondary-label{opacity:1}
+.graph-svg .graph-node:hover circle{stroke:var(--brand);stroke-width:2}
+.graph-tools{position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--line);border-radius:9px;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(8px)}
+.graph-tools button{min-width:30px;height:28px;padding:0 7px;border:0;border-radius:6px;background:transparent;color:var(--muted);font-size:13px}
+.graph-tools button:hover{background:var(--panel-2);color:var(--text)}
+.graph-zoom-label{min-width:42px;text-align:center;font-size:11px;color:var(--faint)}
+.inline-user{padding:0;border:0;background:none;color:var(--brand);font:inherit;cursor:pointer;text-align:left}
+.inline-user:hover{text-decoration:underline}
+
+
+/* Admin direct messages */
+.dm-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;overflow:hidden;padding:0}
+.dm-side{border-right:1px solid var(--line);min-height:520px;display:flex;flex-direction:column}
+.dm-side-head,.dm-main-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.dm-conversation-list{overflow:auto;max-height:68vh}
+.dm-conversation{display:flex;gap:9px;width:100%;padding:10px 14px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;cursor:pointer}
+.dm-conversation.active,.dm-conversation:hover{background:var(--panel-2)}
+.dm-conversation .avatar-small{flex:none}
+.dm-conversation-main{min-width:0;flex:1}
+.dm-conversation-main b,.dm-conversation-main span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dm-conversation-main span{font-size:12px;color:var(--faint);margin-top:2px}
+.dm-conversation .unread{flex:none;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--brand);color:#fff;font-size:11px;display:grid;place-items:center}
+.dm-main{display:flex;flex-direction:column;min-width:0;min-height:520px}
+.dm-messages{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:58vh}
+.dm-bubble{max-width:76%;padding:9px 12px;border-radius:12px;background:var(--panel-2);font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.dm-bubble.mine{align-self:flex-end;background:var(--brand);color:var(--on-brand,#fff)}
+.dm-bubble-meta{font-size:11px;color:var(--faint);margin-top:5px}
+.dm-composer{display:flex;gap:10px;align-items:flex-end;padding:12px 14px;border-top:1px solid var(--line)}
+.dm-composer textarea{flex:1;min-height:64px;resize:vertical}
+@media(max-width:760px){.dm-layout{grid-template-columns:1fr}.dm-side{border-right:0;border-bottom:1px solid var(--line);min-height:0}.dm-conversation-list{max-height:32vh}.dm-main{min-height:420px}.dm-messages{max-height:42vh}}
+
+/* User center: message tabs and direct-message thread */
+.message-tabs{display:flex;gap:8px;margin:14px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.message-tabs button{padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);font-size:13px}
+.message-tabs button.active{border-color:var(--brand);background:var(--brand);color:var(--on-brand,#fff)}
+.message-tabs .tab-count{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;margin-left:4px;border-radius:9px;background:rgba(255,255,255,.24);font-size:11px}
+.dm-thread{display:flex;flex-direction:column;gap:10px;min-height:180px;max-height:48vh;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
+.dm-thread .empty{width:100%;text-align:center}
+.user-dm-composer{display:flex;gap:10px;align-items:flex-end}
+.user-dm-composer textarea{flex:1;min-height:64px;resize:vertical}
+/* Announcement dialog: one acknowledgement button only */
+.announcement-dialog{width:min(560px,92vw);border:1px solid var(--line);border-radius:14px;padding:0;background:var(--panel);color:var(--text)}
+.announcement-dialog::backdrop{background:rgba(6,12,18,.55)}
+.announcement-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.announcement-body{padding:18px;max-height:56vh;overflow:auto;white-space:pre-wrap;line-height:1.75;font-size:14px;overflow-wrap:anywhere}
+.announcement-actions{display:flex;justify-content:flex-end;padding:12px 18px;border-top:1px solid var(--line)}
+
+.dm-head-actions{display:flex;align-items:center;gap:8px}

@@ -3,6 +3,7 @@
 
 mod account_api;
 mod accounts;
+mod announcement;
 mod admin_users;
 mod api;
 mod api_monitor;
@@ -27,6 +28,8 @@ mod models;
 mod net;
 mod network_api;
 mod oauth;
+mod messaging;
+mod realtime;
 mod package;
 mod performance;
 mod performance_api;

@@ -86,6 +86,8 @@ pub struct AppState {
     /// Real-time API usage monitoring and persisted request logs.
     pub monitor: Arc<crate::api_monitor::MonitorRuntime>,
     pub upload_semaphore: Arc<tokio::sync::Semaphore>,
+    /// Fan-out channel for console/user real-time events (DM, announcements).
+    pub events: tokio::sync::broadcast::Sender<Value>,
     named_token_cache: Arc<Mutex<HashMap<String, (bool, Instant)>>>,
     download_totals_cache: Arc<Mutex<Option<(Instant, (u64, u64))>>>,
     usage_cache: Arc<Mutex<Option<(Instant, u64, crate::models::StorageUsage)>>>,
@@ -162,6 +164,7 @@ impl AppState {
         let upload_concurrency = performance_settings.upload_concurrency.max(1);
         let distribution =
             crate::distribution::Distribution::load(&paths, network_settings.outbound_ip_family)?;
+        let (events, _) = tokio::sync::broadcast::channel(256);
         Ok(Self {
             paths,
             settings: Arc::new(settings),
@@ -181,6 +184,7 @@ impl AppState {
             performance,
             monitor,
             upload_semaphore: Arc::new(tokio::sync::Semaphore::new(upload_concurrency)),
+            events,
             named_token_cache: Arc::new(Mutex::new(HashMap::new())),
             download_totals_cache: Arc::new(Mutex::new(None)),
             usage_cache: Arc::new(Mutex::new(None)),
@@ -448,6 +452,7 @@ pub fn router(state: AppState) -> Router {
         .route("/stats", get(stats))
         .route("/themes", get(themes))
         .route("/pending", get(pending))
+        .route("/counters", get(admin_counters))
         .route("/authors", get(authors))
         .route("/preview", get(preview))
         .route("/storage", get(storage_get))
@@ -483,6 +488,9 @@ pub fn router(state: AppState) -> Router {
         .merge(crate::resumable::router())
         .merge(crate::theme_tokens::router())
         .merge(crate::theme_files::admin_router())
+        .merge(crate::messaging::admin_router())
+        .merge(crate::realtime::admin_router())
+        .merge(crate::announcement::admin_router())
         .merge(crate::api_monitor::router())
         .merge(crate::community::admin_router())
         .merge(crate::distribution::admin_router())
@@ -1668,6 +1676,49 @@ async fn health(State(state): State<AppState>) -> Response {
         },
     });
     (code, Json(body)).into_response()
+}
+
+async fn admin_counters(State(state): State<AppState>) -> ApiResult<Json<Value>> {
+    let pending_themes = catalog::pending_submissions(&state.paths).len() as i64;
+    let author_requests = crate::authors::count_pending_author_requests_split(&state.db, &state.paths)
+        .await
+        .map(|(manual, submission)| manual + submission)
+        .unwrap_or(0);
+    let pending_reports: i64 = state
+        .db
+        .call(|conn| {
+            let reports: i64 = conn.query_row(
+                "SELECT COUNT(*) FROM social.theme_reports WHERE status = 'pending'",
+                [],
+                |row| row.get(0),
+            )?;
+            let appeals: i64 = conn.query_row(
+                "SELECT COUNT(*) FROM social.theme_appeals WHERE status = 'pending'",
+                [],
+                |row| row.get(0),
+            )?;
+            Ok(reports + appeals)
+        })
+        .await
+        .map_err(ApiError::internal)?;
+    let dm_unread = crate::messaging::admin_unread_count(&state)
+        .await
+        .map_err(ApiError::internal)?;
+    let follows_total: i64 = state
+        .db
+        .call(|conn| {
+            Ok(conn.query_row("SELECT COUNT(*) FROM social.user_follows", [], |row| row.get(0))?)
+        })
+        .await
+        .map_err(ApiError::internal)?;
+    Ok(Json(json!({
+        "ok": true,
+        "pendingThemes": pending_themes,
+        "authorRequests": author_requests,
+        "pendingReports": pending_reports,
+        "dmUnread": dm_unread,
+        "followsTotal": follows_total,
+    })))
 }
 
 async fn pending(State(state): State<AppState>) -> Json<Value> {

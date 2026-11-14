@@ -113,6 +113,9 @@ pub fn router(state: AppState) -> Router<AppState> {
         .route("/theme-id/next", get(next_theme_id))
         .route("/submit", post(submit_theme))
         .merge(crate::community::account_router())
+        .merge(crate::messaging::account_router())
+        .merge(crate::realtime::account_router())
+        .merge(crate::announcement::account_router())
         .merge(crate::resumable::router())
         .merge(crate::client_access::account_router())
         .layer(middleware::from_fn_with_state(

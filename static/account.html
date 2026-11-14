@@ -53,7 +53,7 @@
       <button data-view="updates">关注更新 <span class="view-badge hidden" id="updatesBadge">0</span></button>
       <button data-view="dashboard">作者数据</button>
       <button data-view="reports">举报与申诉</button>
-      <button data-view="messages">消息</button>
+      <button data-view="messages">消息 <span class="view-badge hidden" id="messagesBadge">0</span></button>
       <div class="side-foot" id="sideInfo">—</div>
     </aside>
 
@@ -422,15 +422,35 @@
               <button class="btn danger" id="messagesClear" type="button">一键清空</button>
             </div>
           </div>
-          <p class="comment-retention" id="messagesRetention" style="margin:6px 0 14px"></p>
-          <div id="messagesList"></div>
-          <div class="empty hidden" id="messagesEmpty">还没有留言。到「主题广场」里打开一个主题就能留言。</div>
+          <div class="message-tabs" role="tablist" aria-label="消息类型">
+            <button type="button" class="active" data-message-tab="comments">主题留言</button>
+            <button type="button" data-message-tab="dm">管理员私信 <span class="tab-count" id="userDmBadge" hidden>0</span></button>
+          </div>
+          <div id="messageCommentsPane">
+            <p class="comment-retention" id="messagesRetention" style="margin:6px 0 14px"></p>
+            <div id="messagesList"></div>
+            <div class="empty hidden" id="messagesEmpty">还没有留言。到「主题广场」里打开一个主题就能留言。</div>
+          </div>
+          <div id="messageDmPane" class="hidden">
+            <p class="hint">只有你和管理员能看到这里的私信；管理员回复后会显示在这个标签里。</p>
+            <div class="dm-thread" id="userDmList"><div class="comment-empty">正在加载私信…</div></div>
+            <div class="empty hidden" id="userDmEmpty">还没有管理员私信，可以先发一条。</div>
+            <div class="dm-composer">
+              <textarea id="userDmInput" maxlength="2000" rows="3" placeholder="给管理员留言，Enter 发送，Shift+Enter 换行"></textarea>
+              <button class="btn primary" type="button" id="userDmSend">发送</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<dialog class="announcement-dialog" id="announcementDialog">
+  <div class="announcement-head"><h3>站点公告</h3><span class="pill" id="announcementVersion"></span></div>
+  <div class="announcement-body" id="announcementText"></div>
+  <div class="announcement-actions"><button class="btn primary" id="announcementRead" type="button">我已阅读</button></div>
+</dialog>
 <dialog class="theme-detail-dialog" id="accessRevealDialog"><div class="theme-detail-head"><h3>设备凭证（仅显示一次）</h3><button type="button" id="accessRevealClose">关闭</button></div><div class="theme-detail-body"><p class="hint">请立即复制到管理器设置。刷新凭证也必须保密，关闭后不会再次显示。</p><label for="accessRevealValue">访问与刷新凭证</label><textarea id="accessRevealValue" readonly rows="9" spellcheck="false"></textarea><button class="btn primary" id="accessRevealCopy" type="button">复制凭证</button></div></dialog>
 <dialog class="theme-dialog" id="myThemeDialog">
   <div class="dialog-head">
@@ -494,6 +514,9 @@
   let messagesData = [];
   let messagesLoading = false;
   let messagesLoaded = false;
+  let messageTab = 'comments';
+  let userDmMessages = [];
+  let userDmLoaded = false;
   let messagesRetentionDays = 0;
   const messageReplyTargets = new Map();
 
@@ -755,7 +778,11 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
       if (plazaTab === 'viewed') loadHistory('view');
       if (plazaTab === 'downloaded') loadHistory('download');
     }
-    if (name === 'messages') loadMessages(true);
+    if (name === 'messages') {
+      setMessageTab('comments', false);
+      refreshUserDmBadge();
+      loadMessages(true);
+    }
     if (name === 'favorites') loadFavorites();
     if (name === 'updates') loadUpdates();
     if (name === 'drafts') loadDrafts();
@@ -1878,6 +1905,97 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     });
   }
 
+  function updateUserDmBadge(unread) {
+    const count = Number(unread) || 0;
+    const badge = $('userDmBadge');
+    if (badge) {
+      badge.textContent = count > 99 ? '99+' : String(count);
+      badge.hidden = count === 0;
+    }
+    const nav = $('messagesBadge');
+    if (nav) {
+      nav.textContent = count > 99 ? '99+' : String(count);
+      nav.classList.toggle('hidden', count === 0);
+    }
+  }
+
+  async function refreshUserBadges() {
+    await refreshUserDmBadge();
+    await loadUpdates();
+  }
+
+  async function refreshUserDmBadge() {
+    try {
+      const data = await api('/dm/unread');
+      updateUserDmBadge(data.unread);
+    } catch (_) {}
+  }
+
+  function setMessageTab(tab, load = true) {
+    messageTab = tab === 'dm' ? 'dm' : 'comments';
+    document.querySelectorAll('[data-message-tab]').forEach(button => {
+      button.classList.toggle('active', button.dataset.messageTab === messageTab);
+    });
+    $('messageCommentsPane').classList.toggle('hidden', messageTab !== 'comments');
+    $('messageDmPane').classList.toggle('hidden', messageTab !== 'dm');
+    $('messagesClear').classList.toggle('hidden', messageTab !== 'comments');
+    $('messagesRetention').classList.toggle('hidden', messageTab !== 'comments');
+    if (messageTab === 'dm' && load) loadUserDm(false);
+    if (messageTab === 'comments' && load) loadMessages(false);
+  }
+
+  function renderUserDm() {
+    const list = $('userDmList');
+    if (!list) return;
+    const empty = $('userDmEmpty');
+    if (empty) empty.classList.toggle('hidden', userDmMessages.length > 0);
+    list.innerHTML = userDmMessages.length
+      ? userDmMessages.map(message => {
+        const mine = message.role === 'user';
+        const adminName = message.senderName || '';
+        const who = mine ? '我' : (adminName && adminName !== '管理员' ? '管理员-' + adminName : '管理员');
+        return `<div class="dm-bubble ${mine ? 'mine' : ''}">${escapeHtml(message.body || '')}<div class="dm-bubble-meta">${escapeHtml(who)} · ${escapeHtml(formatTime(message.createdAt))}</div></div>`;
+      }).join('')
+      : '';
+    list.scrollTop = list.scrollHeight;
+  }
+
+  async function loadUserDm(force) {
+    if (userDmLoaded && !force) {
+      renderUserDm();
+      return;
+    }
+    const list = $('userDmList');
+    if (list) list.innerHTML = '<div class="comment-empty">正在加载私信…</div>';
+    try {
+      const data = await api('/dm');
+      userDmMessages = data.messages || [];
+      userDmLoaded = true;
+      updateUserDmBadge(0);
+      renderUserDm();
+    } catch (error) {
+      if (list) list.innerHTML = '<div class="comment-empty">' + escapeHtml(error.message) + '</div>';
+    }
+  }
+
+  async function sendUserDm() {
+    const input = $('userDmInput');
+    const body = (input ? input.value : '').trim();
+    if (!body) { toast('消息不能为空', true); return; }
+    const button = $('userDmSend');
+    if (button) button.disabled = true;
+    try {
+      await api('/dm/send', { method: 'POST', body: JSON.stringify({ body }) });
+      input.value = '';
+      await loadUserDm(true);
+      toast('已发送给管理员');
+    } catch (error) {
+      toast(error.message, true);
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }
+
   async function submitMessageReply(themeId) {
     const target = messageReplyTargets.get(themeId);
     if (!target) {
@@ -2211,8 +2329,21 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     if (!event.target.closest('#discoverComments')) hideMentionSuggest();
     if (!event.target.closest('#messagesList')) hideMessageMentionPanels();
   });
-  $('messagesRefresh').addEventListener('click', () => loadMessages(true));
+  $('messagesRefresh').addEventListener('click', () => {
+    if (messageTab === 'dm') loadUserDm(true);
+    else loadMessages(true);
+  });
   $('messagesClear').addEventListener('click', () => clearComments(''));
+  document.querySelectorAll('[data-message-tab]').forEach(button => {
+    button.addEventListener('click', () => setMessageTab(button.dataset.messageTab, true));
+  });
+  $('userDmSend').addEventListener('click', sendUserDm);
+  $('userDmInput').addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendUserDm();
+    }
+  });
 
   $('popularSeeAll').addEventListener('click', () => {
     setPlazaTab('gallery', false);
@@ -2705,8 +2836,9 @@ async function loadUpdates() {
   try {
     const data = await api('/updates');
     const updates = data.updates || [];
-    $('updatesBadge').textContent = data.unread > 99 ? '99+' : String(data.unread || 0);
-    $('updatesBadge').classList.toggle('hidden', !data.unread);
+    const unread = Math.max(0, Number(data.unread) || 0);
+    $('updatesBadge').textContent = unread > 99 ? '99+' : String(unread);
+    $('updatesBadge').classList.toggle('hidden', unread === 0);
     $('updatesEmpty').classList.toggle('hidden', updates.length > 0);
     $('updatesList').innerHTML = updates.map(item => '<div class="list-item"><div class="item-head"><b>' +
       escapeHtml(item.name) + ' · v' + escapeHtml(item.version) + '</b>' +
@@ -3252,6 +3384,64 @@ document.querySelectorAll('[data-tag-target]').forEach(group => {
     try { history.replaceState(null, '', location.pathname + location.hash); } catch (_) {}
   }
 
+  let announcementUnreadVersion = 0;
+  let userSocket = null;
+  let userSocketRetry = null;
+  function connectUserEvents() {
+    if (userSocket && (userSocket.readyState === WebSocket.OPEN || userSocket.readyState === WebSocket.CONNECTING)) return;
+    const scheme = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    try {
+      userSocket = new WebSocket(`${scheme}//${location.host}/account/api/events`);
+    } catch (_) { return; }
+    userSocket.addEventListener('open', () => {
+      if (userSocketRetry) { clearTimeout(userSocketRetry); userSocketRetry = null; }
+      refreshUserDmBadge();
+    });
+    userSocket.addEventListener('message', event => {
+      let payload;
+      try { payload = JSON.parse(event.data); } catch (_) { return; }
+      if (payload.type === 'dm') {
+        refreshUserDmBadge();
+        if (currentView === 'messages' && messageTab === 'dm') loadUserDm(true);
+      } else if (payload.type === 'announcement') {
+        maybeShowAnnouncement();
+      }
+    });
+    userSocket.addEventListener('close', () => {
+      userSocket = null;
+      if (userSocketRetry) clearTimeout(userSocketRetry);
+      userSocketRetry = setTimeout(connectUserEvents, 5000);
+    });
+    userSocket.addEventListener('error', () => {
+      try { userSocket.close(); } catch (_) {}
+    });
+  }
+
+  async function maybeShowAnnouncement() {
+    try {
+      const data = await api('/announcement');
+      const dialog = $('announcementDialog');
+      if (!data.content) {
+        if (dialog.open) dialog.close();
+        return;
+      }
+      if (!data.unread) return;
+      const version = Number(data.version) || 0;
+      announcementUnreadVersion = version;
+      $('announcementText').textContent = data.content;
+      $('announcementVersion').textContent = 'v' + version;
+      if (dialog.open) dialog.close();
+      dialog.showModal();
+    } catch (_) {}
+  }
+  $('announcementRead').addEventListener('click', async () => {
+    try {
+      await api('/announcement/read', { method: 'POST', body: '{}' });
+    } catch (_) {}
+    $('announcementDialog').close();
+  });
+  $('announcementDialog').addEventListener('cancel', event => event.preventDefault());
+
   let pendingDeviceCode = sessionStorage.getItem('sukisu_device_code');
   if (pendingDeviceCode) {
     const pendingAt = Number(sessionStorage.getItem('sukisu_device_code_at') || 0);
@@ -3264,10 +3454,18 @@ document.querySelectorAll('[data-tag-target]').forEach(group => {
     }
   }
   loadProfile();
+  refreshUserBadges();
+  maybeShowAnnouncement();
+  connectUserEvents();
+  window.addEventListener('focus', refreshUserBadges);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refreshUserBadges();
+  });
   setInterval(() => {
     if (document.hidden || !profile) return;
     loadSubmissions();
     if (currentView === 'content') loadThemes();
+    refreshUserDmBadge();
   }, 30000);
 })();
 </script>
