@@ -36,6 +36,7 @@ mod sources;
 mod sources_api;
 mod storage;
 mod system;
+mod theme_files;
 mod theme_tokens;
 mod upload_ingress;
 mod uploads;

@@ -2478,8 +2478,8 @@ pub(crate) fn discover_theme_json(
     })
 }
 
-/// Five-at-a-time discovery cards for the user center. `exclude` lets the
-/// "随便看看" button avoid repeating themes until the pool is exhausted.
+/// Five-at-a-time discovery cards for the user center/plaza hot list.
+/// `exclude` still lets callers page through a pool without repeats.
 async fn discover_themes(
     State(state): State<AppState>,
     Extension(session): Extension<SessionInfo>,

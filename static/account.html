@@ -297,7 +297,7 @@
           <div class="discover-head">
             <div>
               <h3>主题广场</h3>
-              <p class="hint">热门排行、完整图库和随机推荐集中在这里；找到喜欢的主题后可直接收藏或下载。</p>
+              <p class="hint">热门排行和完整图库集中在这里；找到喜欢的主题后可直接收藏或下载。</p>
             </div>
           </div>
           <div class="theme-tabs plaza-tabs" role="tablist" aria-label="主题广场分类">
@@ -305,7 +305,6 @@
             <button type="button" class="theme-tab" id="plazaTabGallery" role="tab" aria-selected="false" aria-controls="plazaPaneGallery" tabindex="-1" data-plaza-tab="gallery">图库</button>
             <button type="button" class="theme-tab" id="plazaTabViewed" role="tab" aria-selected="false" aria-controls="plazaPaneViewed" tabindex="-1" data-plaza-tab="viewed">最近查看</button>
             <button type="button" class="theme-tab" id="plazaTabDownloaded" role="tab" aria-selected="false" aria-controls="plazaPaneDownloaded" tabindex="-1" data-plaza-tab="downloaded">最近下载</button>
-            <button type="button" class="theme-tab" id="plazaTabDiscover" role="tab" aria-selected="false" aria-controls="plazaPaneDiscover" tabindex="-1" data-plaza-tab="discover">随便看看</button>
           </div>
         </div>
         <div class="theme-pane" id="plazaPaneHot" role="tabpanel" aria-labelledby="plazaTabHot" data-plaza-pane="hot">
@@ -316,7 +315,7 @@
                   <h3>热门主题</h3>
                   <p class="hint">按热度排序：总下载量 + 近 7 天下载 × 10。</p>
                 </div>
-                <button class="btn" id="popularSeeAll" type="button">去随便看看</button>
+                <button class="btn" id="popularSeeAll" type="button">查看全部图库</button>
               </div>
               <div id="popularList"></div>
               <div class="empty hidden" id="popularEmpty">还没有下载记录</div>
@@ -382,27 +381,27 @@
             <div class="row"><span class="muted" id="historyDownloadCount"></span></div>
           </div>
         </div>
-        <div class="theme-pane hidden" id="plazaPaneDiscover" role="tabpanel" aria-labelledby="plazaTabDiscover" data-plaza-pane="discover">
-          <div class="card">
-            <div class="discover-head">
-              <div>
-                <h3>随便看看</h3>
-                <p class="hint" id="discoverHint">看看其他作者分享的主题，每次展示 5 个。</p>
-              </div>
-              <button class="btn primary" id="discoverShuffle" type="button">换一批</button>
-            </div>
-            <div class="row" id="discoverFilter"></div>
-            <div class="theme-grid" id="discoverGrid"></div>
-            <div class="empty hidden" id="discoverEmpty">暂时还没有其他作者的主题，稍后再来看看。</div>
-          </div>
-        </div>
       </section>
 
       <section id="view-favorites" class="view hidden"><div class="card"><div class="discover-head"><div><h3>我的收藏</h3><p class="hint">收藏的主题集中在这里。</p></div><button class="btn" id="favoritesRefresh" type="button">刷新</button></div><div class="theme-grid" id="favoritesGrid"></div><div class="empty hidden" id="favoritesEmpty">还没有收藏主题</div></div></section>
 
       <section id="view-updates" class="view hidden"><div class="card"><div class="discover-head"><div><h3>关注更新</h3><p class="hint">关注作者发布新版后，在此查看更新记录。</p></div><button class="btn" id="updatesRefresh" type="button">刷新</button></div><div class="list" id="updatesList"></div><div class="empty hidden" id="updatesEmpty">关注的作者还没有新动态</div></div></section>
 
-      <section id="view-dashboard" class="view hidden"><div class="card"><div class="discover-head"><div><h3>作者数据面板</h3><p class="hint">你的公开主题、下载趋势与粉丝数据。</p></div><button class="btn" id="dashboardRefresh" type="button">刷新</button></div><div class="grid2" id="dashboardStats"></div><h4>近 14 天下载</h4><div id="dashboardTrend" class="list"></div><h4>主题表现</h4><div class="list" id="dashboardThemes"></div></div></section>
+      <section id="view-dashboard" class="view hidden"><div class="card dashboard-panel">
+  <div class="discover-head"><div><h3>作者数据面板</h3><p class="hint">你的公开主题、下载趋势与粉丝数据。</p></div><button class="btn" id="dashboardRefresh" type="button">刷新</button></div>
+  <div class="dashboard-kpis" id="dashboardStats"></div>
+  <div class="dashboard-chart-card">
+    <div class="dashboard-chart-head">
+      <div class="chart-tabs" id="dashboardChartTabs" role="tablist" aria-label="图表维度">
+        <button type="button" class="chart-tab active" role="tab" aria-selected="true" data-dashboard-chart="trend">下载趋势</button>
+        <button type="button" class="chart-tab" role="tab" aria-selected="false" data-dashboard-chart="themes">主题表现</button>
+      </div>
+      <div class="chart-filters" id="dashboardChartFilters"></div>
+    </div>
+    <div class="bar-chart" id="dashboardChart" aria-live="polite"></div>
+    <div class="empty hidden" id="dashboardChartEmpty">暂无数据</div>
+  </div>
+</div></section>
 
       <section id="view-reports" class="view hidden">
         <div class="card"><h3>举报主题</h3><p class="hint">请提供准确主题 ID 与具体说明，管理员处理后会显示结果。</p><div class="grid2"><div class="field"><label for="reportThemeId">主题 ID</label><input id="reportThemeId" maxlength="96"></div><div class="field"><label for="reportCategory">类型</label><select id="reportCategory"><option value="copyright">版权问题</option><option value="malware">恶意内容</option><option value="inappropriate">不适宜内容</option><option value="broken">主题损坏</option><option value="other">其他</option></select></div></div><div class="field"><label for="reportDetail">说明（10–2000 字）</label><textarea id="reportDetail" maxlength="2000"></textarea></div><div class="row"><button class="btn primary" id="reportSubmit" type="button">提交举报</button></div></div>
@@ -465,11 +464,6 @@
   let currentView = 'profile';
   let knownSubmissionStates = null;
   let contentUnseen = 0;
-  let discoverThemes = [];
-  let discoverSeen = new Set();
-  let discoverAuthor = '';
-  let discoverLoaded = false;
-  let discoverBusy = false;
   let popularThemes = [];
   let leaderboardAuthors = [];
   let followedAuthors = new Set();
@@ -760,7 +754,6 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
       if (plazaTab === 'gallery' && !galleryLoaded) loadGallery(true);
       if (plazaTab === 'viewed') loadHistory('view');
       if (plazaTab === 'downloaded') loadHistory('download');
-      if (plazaTab === 'discover' && !discoverLoaded) loadDiscover();
     }
     if (name === 'messages') loadMessages(true);
     if (name === 'favorites') loadFavorites();
@@ -771,7 +764,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
   }
 
   function setPlazaTab(name, load = true) {
-    plazaTab = ['hot', 'gallery', 'viewed', 'downloaded', 'discover'].includes(name) ? name : 'hot';
+    plazaTab = ['hot', 'gallery', 'viewed', 'downloaded'].includes(name) ? name : 'hot';
     document.querySelectorAll('[data-plaza-tab]').forEach(button => {
       const active = button.dataset.plazaTab === plazaTab;
       button.classList.toggle('active', active);
@@ -785,7 +778,6 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     if (plazaTab === 'gallery' && !galleryLoaded) loadGallery(true);
     if (plazaTab === 'viewed') loadHistory('view');
     if (plazaTab === 'downloaded') loadHistory('download');
-    if (plazaTab === 'discover' && !discoverLoaded) loadDiscover();
   }
 
   function renderProfile(data) {
@@ -1460,7 +1452,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
         '<span>粉丝 ' + formatCount(author.fans) + ' · 热度 ' + formatCount(author.heat) +
         ' · 主题 ' + formatCount(author.themes) + '</span></div>' +
         followButton(author);
-      row.addEventListener('click', () => filterDiscoverByAuthor(author.name));
+      row.addEventListener('click', () => filterGalleryByAuthor(author.name));
       const button = row.querySelector('.follow-btn');
       if (button) {
         button.addEventListener('click', event => {
@@ -1518,14 +1510,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     if (authorButton) {
       authorButton.addEventListener('click', event => {
         event.stopPropagation();
-        if ((currentView === 'plaza' && plazaTab === 'gallery') || currentView === 'favorites') {
-          $('gallerySearch').value = theme.author || '';
-          $('galleryTag').value = '';
-          setView('plaza');
-          setPlazaTab('gallery', false);
-          loadGallery(true);
-          $('view-plaza').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else filterDiscoverByAuthor(theme.author);
+        filterGalleryByAuthor(theme.author);
       });
     }
     const followButtonEl = card.querySelector('.follow-btn');
@@ -1538,74 +1523,16 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     return card;
   }
 
-  function renderDiscover() {
-    const grid = $('discoverGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    const empty = $('discoverEmpty');
-    empty.classList.toggle('hidden', discoverThemes.length > 0);
-    empty.textContent = discoverAuthor ? '这位作者暂时没有更多主题。' : '暂时还没有其他作者的主题，稍后再来看看。';
-    const filter = $('discoverFilter');
-    filter.innerHTML = '';
-    if (discoverAuthor) {
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'pill';
-      chip.textContent = '作者：' + discoverAuthor + ' ×';
-      chip.addEventListener('click', () => {
-        discoverAuthor = '';
-        discoverSeen = new Set();
-        loadDiscover();
-      });
-      filter.appendChild(chip);
-    }
-    discoverThemes.forEach(theme => grid.appendChild(discoverCard(theme)));
-    $('discoverHint').textContent = discoverAuthor
-      ? '正在查看作者「' + discoverAuthor + '」的主题，每次展示 5 个。'
-      : '看看其他作者分享的主题，每次展示 5 个。';
-  }
-
-  async function loadDiscover() {
-    if (discoverBusy) return;
-    discoverBusy = true;
-    await ensureFollows();
-    const button = $('discoverShuffle');
-    const oldLabel = button.textContent;
-    button.disabled = true;
-    button.textContent = '正在挑选…';
-    try {
-      const params = new URLSearchParams({ limit: '5' });
-      if (discoverAuthor) {
-        params.set('author', discoverAuthor);
-      } else {
-        const seen = Array.from(discoverSeen).slice(-60);
-        if (seen.length) params.set('exclude', seen.join(','));
-      }
-      const data = await api('/discover?' + params.toString());
-      discoverThemes = data.themes || [];
-      discoverThemes.forEach(theme => {
-        if (theme.id) discoverSeen.add(theme.id);
-      });
-      discoverLoaded = true;
-      if (discoverSeen.size > 120) {
-        discoverSeen = new Set(Array.from(discoverSeen).slice(-60));
-      }
-      renderDiscover();
-    } catch (error) {
-      toast(error.message, true);
-    } finally {
-      discoverBusy = false;
-      button.disabled = false;
-      button.textContent = oldLabel;
-    }
-  }
-
-  function filterDiscoverByAuthor(author) {
-    discoverAuthor = String(author || '').trim();
-    discoverSeen = new Set();
+  // Author chips inside the plaza jump to the gallery with an author query;
+  // the random "随便看看" tab has been removed.
+  function filterGalleryByAuthor(author) {
+    const name = String(author || '').trim();
     if (currentView !== 'plaza') setView('plaza');
-    setPlazaTab('discover', false);
-    loadDiscover();
+    setPlazaTab('gallery', false);
+    $('gallerySearch').value = name;
+    $('galleryTag').value = '';
+    galleryLoaded = false;
+    loadGallery(true);
     $('view-plaza').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -1687,7 +1614,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     if (authorButton) {
       authorButton.addEventListener('click', () => {
         dialog.close();
-        filterDiscoverByAuthor(theme.author);
+        filterGalleryByAuthor(theme.author);
       });
     }
     $('discoverFavorite').addEventListener('click', () => toggleFavorite(theme, $('discoverFavorite')));
@@ -2287,16 +2214,9 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
   $('messagesRefresh').addEventListener('click', () => loadMessages(true));
   $('messagesClear').addEventListener('click', () => clearComments(''));
 
-  $('discoverShuffle').addEventListener('click', () => {
-    discoverAuthor = '';
-    loadDiscover();
-  });
   $('popularSeeAll').addEventListener('click', () => {
-    discoverAuthor = '';
-    discoverSeen = new Set();
-    discoverLoaded = false;
-    setPlazaTab('discover', false);
-    loadDiscover();
+    setPlazaTab('gallery', false);
+    loadGallery(true);
     $('view-plaza').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   $('savePreferences').addEventListener('click', async () => {
@@ -2307,11 +2227,8 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
       });
       $('prefShowR18').checked = Boolean(data.showR18);
       toast('内容偏好已保存');
-      discoverSeen = new Set();
-      discoverLoaded = false;
       galleryLoaded = false;
       await loadPopular();
-      if (currentView === 'plaza' && plazaTab === 'discover') await loadDiscover();
       if (currentView === 'plaza' && plazaTab === 'gallery') await loadGallery(true);
       await loadPreferences();
     } catch (error) {
@@ -2753,7 +2670,6 @@ async function loadFavorites() {
     $('favoritesGrid').replaceChildren(...themes.map(theme => discoverCard(theme)));
     $('favoritesEmpty').classList.toggle('hidden', themes.length > 0);
     if (currentView === 'plaza' && plazaTab === 'gallery' && galleryLoaded) renderGallery();
-    if (currentView === 'plaza' && plazaTab === 'discover' && discoverLoaded) renderDiscover();
   } catch (error) { if (currentView === 'favorites') toast(error.message, true); }
 }
 
@@ -2906,23 +2822,109 @@ $('draftList').addEventListener('click', async event => {
   } catch (error) { toast(error.message, true); }
 });
 
+let dashboardData = null;
+let dashboardChartMode = 'trend';
+let dashboardRange = 14;
+let dashboardThemeMetric = 'downloads';
+
+function dashboardKpis(data) {
+  const stats = [
+    ['公开主题', data.published, '已发布'],
+    ['累计下载', data.downloads, '全部版本'],
+    ['粉丝', data.followers, '关注你'],
+    ['待审投稿', data.pendingSubmissions, '等待审核'],
+  ];
+  $('dashboardStats').innerHTML = stats.map(item =>
+    '<span class="data-label"><span class="data-label-name">' + item[0] + '</span>' +
+    '<b>' + formatCount(item[1]) + '</b><em>' + item[2] + '</em></span>').join('');
+}
+
+function renderDashboardFilters() {
+  const host = $('dashboardChartFilters');
+  if (dashboardChartMode === 'trend') {
+    host.innerHTML = [7, 14, 30].map(value =>
+      '<button type="button" class="chart-filter' + (dashboardRange === value ? ' active' : '') +
+      '" data-dashboard-range="' + value + '">近 ' + value + ' 天</button>').join('');
+  } else {
+    host.innerHTML = [['downloads', '按下载'], ['heat', '按热度']].map(item =>
+      '<button type="button" class="chart-filter' + (dashboardThemeMetric === item[0] ? ' active' : '') +
+      '" data-dashboard-metric="' + item[0] + '">' + item[1] + '</button>').join('');
+  }
+}
+
+function renderDashboardChart() {
+  const chart = $('dashboardChart');
+  const empty = $('dashboardChartEmpty');
+  if (!chart) return;
+  renderDashboardFilters();
+  const daily = (dashboardData && dashboardData.daily) || [];
+  const themes = (dashboardData && dashboardData.themes) || [];
+  let cols = [];
+  let caption = '';
+  if (dashboardChartMode === 'trend') {
+    const rows = daily.slice(-dashboardRange);
+    const max = Math.max(1, ...rows.map(item => Number(item.downloads) || 0));
+    cols = rows.map(item => {
+      const value = Number(item.downloads) || 0;
+      const label = String(item.day || '').slice(5);
+      return '<div class="bar-col" title="' + escapeHtml(item.day + ' · 下载 ' + value) + '">' +
+        '<span class="bar-value">' + formatCount(value) + '</span>' +
+        '<i class="bar-fill" style="height:' + Math.max(2, Math.round(100 * value / max)) + '%"></i>' +
+        '<span class="bar-label">' + escapeHtml(label) + '</span></div>';
+    }).join('');
+    caption = rows.length ? '每日下载量 · 峰值 ' + formatCount(max) : '';
+  } else {
+    const rows = themes.slice().sort((a, b) =>
+      (Number(b[dashboardThemeMetric]) || 0) - (Number(a[dashboardThemeMetric]) || 0)).slice(0, 10);
+    const max = Math.max(1, ...rows.map(item => Number(item[dashboardThemeMetric]) || 0));
+    cols = rows.map(item => {
+      const value = Number(item[dashboardThemeMetric]) || 0;
+      const name = String(item.name || item.id || '');
+      return '<div class="bar-col bar-col-wide" title="' + escapeHtml(name + ' · 下载 ' +
+        formatCount(item.downloads) + ' · 热度 ' + formatCount(item.heat)) + '">' +
+        '<span class="bar-value">' + formatCount(value) + '</span>' +
+        '<i class="bar-fill" style="height:' + Math.max(2, Math.round(100 * value / max)) + '%"></i>' +
+        '<span class="bar-label">' + escapeHtml(name.length > 6 ? name.slice(0, 6) + '…' : name) + '</span></div>';
+    }).join('');
+    caption = rows.length ? '前 ' + rows.length + ' 个主题 · ' + (dashboardThemeMetric === 'heat' ? '热度' : '下载量') : '';
+  }
+  chart.className = 'bar-chart' + (dashboardChartMode === 'themes' ? ' bar-chart-themes' : '');
+  chart.innerHTML = cols ? '<div class="bar-caption">' + caption + '</div><div class="bar-cols">' + cols + '</div>' : '';
+  if (empty) empty.classList.toggle('hidden', !!cols);
+}
+
 async function loadDashboard() {
   try {
-    const data = await api('/author/dashboard');
-    const stats = [['公开主题', data.published], ['累计下载', data.downloads],
-      ['粉丝', data.followers], ['待审投稿', data.pendingSubmissions]];
-    $('dashboardStats').innerHTML = stats.map(item => '<div class="list-item"><div class="muted">' +
-      item[0] + '</div><b>' + formatCount(item[1]) + '</b></div>').join('');
-    const daily = data.daily || [];
-    const max = Math.max(1, ...daily.map(item => Number(item.downloads) || 0));
-    $('dashboardTrend').innerHTML = daily.length ? daily.map(item => '<div class="list-item"><div class="item-head"><span>' +
-      escapeHtml(item.day) + '</span><b>' + formatCount(item.downloads) + '</b></div><div class="progress-track"><i style="width:' +
-      Math.round(100 * (Number(item.downloads) || 0) / max) + '%"></i></div></div>').join('') : '<div class="empty">近 14 天暂无下载</div>';
-    $('dashboardThemes').innerHTML = (data.themes || []).length ? data.themes.map(item => '<div class="list-item"><div class="item-head"><b>' +
-      escapeHtml(item.name) + '</b><span class="pill">v' + escapeHtml(item.version) + '</span></div><div class="item-meta">下载 ' +
-      formatCount(item.downloads) + ' · 热度 ' + formatCount(item.heat) + '</div></div>').join('') : '<div class="empty">暂无公开主题</div>';
+    const data = await api('/author/dashboard?days=30');
+    dashboardData = data;
+    dashboardKpis(data);
+    renderDashboardChart();
   } catch (error) { toast(error.message, true); }
 }
+$('dashboardChartTabs').addEventListener('click', event => {
+  const button = event.target.closest('[data-dashboard-chart]');
+  if (!button) return;
+  dashboardChartMode = button.dataset.dashboardChart === 'themes' ? 'themes' : 'trend';
+  document.querySelectorAll('[data-dashboard-chart]').forEach(item => {
+    const active = item.dataset.dashboardChart === dashboardChartMode;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-selected', String(active));
+  });
+  renderDashboardChart();
+});
+$('dashboardChartFilters').addEventListener('click', event => {
+  const range = event.target.closest('[data-dashboard-range]');
+  if (range) {
+    dashboardRange = Number(range.dataset.dashboardRange) || 14;
+    renderDashboardChart();
+    return;
+  }
+  const metric = event.target.closest('[data-dashboard-metric]');
+  if (metric) {
+    dashboardThemeMetric = metric.dataset.dashboardMetric === 'heat' ? 'heat' : 'downloads';
+    renderDashboardChart();
+  }
+});
 $('dashboardRefresh').addEventListener('click', loadDashboard);
 
 function caseStatus(status) {

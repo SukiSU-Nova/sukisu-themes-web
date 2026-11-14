@@ -611,6 +611,24 @@ impl AssetStore {
         }
     }
 
+    /// Replace an object where it already lives. `put` always targets the
+    /// primary store, which would silently move an overflow-hosted package on
+    /// the next read; in-place edits must keep the `_loc` prefix authoritative.
+    pub async fn put_same_location(
+        &self,
+        key: &str,
+        data: &[u8],
+        content_type: &str,
+    ) -> Result<()> {
+        match self {
+            AssetStore::Multi(multi) => {
+                let store = multi.store_for_key(key).await;
+                Box::pin(store.put(key, data, content_type)).await
+            }
+            _ => self.put(key, data, content_type).await,
+        }
+    }
+
     pub async fn put_at(
         &self,
         location: Option<&str>,

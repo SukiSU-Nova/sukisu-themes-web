@@ -476,10 +476,20 @@ async fn delete_draft(
     Ok(Json(json!({"ok": true})))
 }
 
+#[derive(Deserialize)]
+struct DashboardQuery {
+    #[serde(default)]
+    days: Option<u32>,
+}
+
 async fn author_dashboard(
     State(state): State<AppState>,
     Extension(session): Extension<SessionInfo>,
+    Query(query): Query<DashboardQuery>,
 ) -> ApiResult<Json<Value>> {
+    // The console offers 7 / 14 / 30 day ranges; clamp anything unexpected so a
+    // hand-written query cannot scan the whole stats table.
+    let days = query.days.unwrap_or(14).clamp(7, 30);
     let hashes: HashSet<String> =
         crate::authors::author_hashes_for_user(&state.db, &session.user_id)
             .await
@@ -509,9 +519,10 @@ async fn author_dashboard(
         let approved = conn.query_row("SELECT COUNT(*) FROM authors.submissions WHERE user_id = ?1 AND status = 'approved'", [&user_id], |row| row.get(0))?;
         Ok((pending, approved))
     }).await.map_err(ApiError::internal)?;
-    let daily: Vec<(String, String, i64)> = state.db.call(|conn| {
-        let mut statement = conn.prepare("SELECT theme_id, day, count FROM stats.theme_download_days WHERE day >= date('now', '-13 days')")?;
-        let rows = statement.query_map([], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)))?;
+    let since = format!("-{} days", days.saturating_sub(1));
+    let daily: Vec<(String, String, i64)> = state.db.call(move |conn| {
+        let mut statement = conn.prepare("SELECT theme_id, day, count FROM stats.theme_download_days WHERE day >= date('now', ?1)")?;
+        let rows = statement.query_map([since], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)))?;
         Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
     }).await.map_err(ApiError::internal)?;
     let mut by_day = std::collections::BTreeMap::<String, i64>::new();
@@ -520,10 +531,21 @@ async fn author_dashboard(
             *by_day.entry(day).or_default() += count;
         }
     }
+    // Zero-fill every day in the window so the bar chart keeps a stable axis
+    // instead of collapsing days without downloads.
+    let today = chrono::Utc::now().date_naive();
+    let mut series = Vec::new();
+    for offset in (0..days).rev() {
+        let day = (today - chrono::Duration::days(i64::from(offset)))
+            .format("%Y-%m-%d")
+            .to_string();
+        let count = by_day.get(&day).copied().unwrap_or(0);
+        series.push(json!({"day": day, "downloads": count}));
+    }
     Ok(Json(
         json!({"ok": true, "themes": themes, "published": themes.len(), "downloads": downloads,
         "followers": followers, "pendingSubmissions": pending, "approvedSubmissions": approved,
-        "daily": by_day.into_iter().map(|(day, count)| json!({"day": day, "downloads": count})).collect::<Vec<_>>()}),
+        "days": days, "daily": series}),
     ))
 }
 

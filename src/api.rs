@@ -482,6 +482,7 @@ pub fn router(state: AppState) -> Router {
         .merge(crate::comments::admin_router())
         .merge(crate::resumable::router())
         .merge(crate::theme_tokens::router())
+        .merge(crate::theme_files::admin_router())
         .merge(crate::api_monitor::router())
         .merge(crate::community::admin_router())
         .merge(crate::distribution::admin_router())
