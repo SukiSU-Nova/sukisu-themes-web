@@ -34,9 +34,9 @@
       <div class="nav-label">总览</div>
       <a href="#overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>概览</a>
       <div class="nav-label">账号</div>
-      <a href="#users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20c.7-4 2.7-6 6-6s5.3 2 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14c2.2.5 3.5 2.5 4 6"/></svg>用户 <span class="nav-badge" id="usersNavBadge" style="display:none">0</span></a>
-      <a href="#follows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z"/></svg>关注关系 <span class="nav-badge" id="followsNavBadge" style="display:none">0</span></a>
-      <a href="#authors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="2"/><path d="M5.8 16c.4-2 1.3-3 2.7-3s2.3 1 2.7 3"/><path d="M14 9h4M14 12h4"/></svg>作者许可</a>
+      <a href="#users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20c.7-4 2.7-6 6-6s5.3 2 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14c2.2.5 3.5 2.5 4 6"/></svg>用户</a>
+      <a href="#follows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z"/></svg>关注关系</a>
+      <a href="#authors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="8.5" cy="10" r="2"/><path d="M5.8 16c.4-2 1.3-3 2.7-3s2.3 1 2.7 3"/><path d="M14 9h4M14 12h4"/></svg>作者许可 <span class="nav-badge" id="authorsNavBadge" style="display:none">0</span></a>
       <a href="/account/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"/></svg>用户中心 <span style="margin-left:auto;color:var(--faint)">↗</span></a>
       <div class="nav-label">主题</div>
       <a href="#pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h5"/></svg>待审核 <span class="nav-badge" id="pendingNavBadge" style="display:none">0</span></a>
@@ -2503,10 +2503,9 @@ async function refreshAdminCounters() {
     notifyCounts.requests = Number(data.authorRequests || 0);
     notifyCounts.dm = Number(data.dmUnread || 0);
     setNavBadge('pendingNavBadge', notifyCounts.themes);
-    setNavBadge('usersNavBadge', notifyCounts.requests);
+    setNavBadge('authorsNavBadge', notifyCounts.requests);
     setNavBadge('dmNavBadge', notifyCounts.dm);
     setNavBadge('reportsNavBadge', Number(data.pendingReports || 0));
-    setNavBadge('followsNavBadge', Number(data.followsTotal || 0));
     if (notifyPrevious === null) {
       // Initial page load: treat everything currently pending as new so the
       // login/refresh toast includes pending themes, author requests and DMs.
@@ -3797,12 +3796,13 @@ function updateUserStats(counts) {
   setCount('usersTabSubmitAuthors', submissionAuthorRequests);
   setCount('usersTabTotal', total);
   if (counts && counts.disabled != null) setCount('usersTabDisabled', counts.disabled);
-  const badge = $('usersNavBadge');
-  // Email-pending users are not actionable notifications; only surface the
-  // author-request queue on the sidebar badge.
-  const pendingTotal = Number(authorRequests || 0);
-  badge.textContent = pendingTotal > 99 ? '99+' : String(pendingTotal);
-  badge.style.display = pendingTotal > 0 ? 'inline-block' : 'none';
+  const badge = $('authorsNavBadge');
+  // Author-request queue belongs to the 作者许可 page, not the user list.
+  const pendingTotal = Number(authorRequests);
+  if (badge && Number.isFinite(pendingTotal)) {
+    badge.textContent = pendingTotal > 99 ? '99+' : String(pendingTotal);
+    badge.style.display = pendingTotal > 0 ? 'inline-block' : 'none';
+  }
   if (counts && (counts.pending != null || counts.authorRequests != null)) {
     notifyCounts.requests = Number(counts.authorRequests || 0);
     if (counts.disabled != null) notifyCounts.disabled = Number(counts.disabled || 0);
@@ -4610,10 +4610,6 @@ async function loadFollows() {
     followsCache = data.follows || [];
     const total = data.total || followsCache.length;
     $('followsPill').textContent = total + ' 条';
-    if ($('followsNavBadge')) {
-      $('followsNavBadge').textContent = total > 99 ? '99+' : String(total);
-      $('followsNavBadge').style.display = total > 0 ? 'inline-block' : 'none';
-    }
     renderFollows();
   } catch (error) {
     toast('关注关系读取失败：' + error.message, 'bad');
@@ -4650,6 +4646,8 @@ function stopFollowGraph() {
 function renderFollowGraph(rows) {
   const graph = $('followGraph');
   if (!graph) return;
+  const signature = JSON.stringify(rows || []);
+  if (followGraphState && followGraphState.signature === signature) return;
   stopFollowGraph();
   if (!rows.length) {
     graph.innerHTML = '';
@@ -4768,6 +4766,7 @@ function renderFollowGraph(rows) {
 
   const state = {
     svg, viewport, nodes: Array.from(nodes.values()), links, width, height,
+    signature,
     view: { x: 0, y: 0, zoom: 1 },
     dragNode: null,
     panning: null,
@@ -4916,7 +4915,8 @@ function renderFollows() {
   if (graphMode) {
     renderFollowGraph(rows);
   } else {
-    stopFollowGraph();
+    // Keep the graph state alive while the list is visible so switching back
+    // does not throw away the user's zoom or node positions.
     $('followRows').innerHTML = rows.map(item => {
       const followerText = '@' + escapeHtml(item.followerUsername || '') +
         (item.followerDisplayName ? ' · ' + escapeHtml(item.followerDisplayName) : '');

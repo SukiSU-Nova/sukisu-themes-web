@@ -484,6 +484,10 @@
   let currentView = 'profile';
   let knownSubmissionStates = null;
   let contentUnseen = 0;
+  const CONTENT_UNSEEN_KEY = 'sukisu-account-content-unseen-v1';
+  const CONTENT_STATES_KEY = 'sukisu-account-submission-states-v1';
+  const UPDATES_SEEN_KEY = 'sukisu-account-updates-seen-v1';
+  let updatesSeen = new Set();
   let popularThemes = [];
   let leaderboardAuthors = [];
   let followedAuthors = new Set();
@@ -720,6 +724,40 @@
     badge.classList.toggle('hidden', contentUnseen === 0);
   }
 
+  function persistContentBadgeState() {
+    try {
+      const states = knownSubmissionStates
+        ? Object.fromEntries(knownSubmissionStates.entries())
+        : {};
+      localStorage.setItem(CONTENT_UNSEEN_KEY, String(contentUnseen));
+      localStorage.setItem(CONTENT_STATES_KEY, JSON.stringify(states));
+    } catch (_) {}
+  }
+
+  function readContentBadgeState() {
+    try {
+      contentUnseen = Math.max(0, Number(localStorage.getItem(CONTENT_UNSEEN_KEY) || 0) || 0);
+      const saved = JSON.parse(localStorage.getItem(CONTENT_STATES_KEY) || '{}');
+      if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
+        knownSubmissionStates = new Map(Object.entries(saved));
+      }
+    } catch (_) {}
+    updateContentBadge();
+  }
+
+  function persistUpdatesSeen() {
+    try {
+      localStorage.setItem(UPDATES_SEEN_KEY, JSON.stringify(Array.from(updatesSeen).slice(-500)));
+    } catch (_) {}
+  }
+
+  function readUpdatesSeen() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(UPDATES_SEEN_KEY) || '[]');
+      if (Array.isArray(saved)) updatesSeen = new Set(saved.filter(value => typeof value === 'string'));
+    } catch (_) {}
+  }
+
 
 let accessEndpoints = [];
 async function loadAccess() {
@@ -760,6 +798,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
     if (name === 'content') {
       contentUnseen = 0;
       updateContentBadge();
+      persistContentBadgeState();
       loadThemes();
       loadSubmissions();
     }
@@ -784,7 +823,7 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
       loadMessages(true);
     }
     if (name === 'favorites') loadFavorites();
-    if (name === 'updates') loadUpdates();
+    if (name === 'updates') loadUpdates(true);
     if (name === 'drafts') loadDrafts();
     if (name === 'dashboard') loadDashboard();
     if (name === 'reports') loadReportHistory();
@@ -1341,13 +1380,14 @@ $('accessCredentialList').addEventListener('click',async event=>{const button=ev
         nextStates.forEach((status, id) => {
           if (knownSubmissionStates.get(id) !== status) changes++;
         });
-        if (changes > 0) {
+        if (changes > 0 && currentView !== 'content') {
           contentUnseen += changes;
           updateContentBadge();
-          if (currentView !== 'content') toast('投稿状态有更新，打开「我的内容」查看');
+          toast('投稿状态有更新，打开「我的内容」查看');
         }
       }
       knownSubmissionStates = nextStates;
+      persistContentBadgeState();
       mySubmissionItems = items;
       renderSubmissions();
     } catch (error) { toast(error.message, true); }
@@ -2832,17 +2872,22 @@ async function loadVersions(id, hostId, owned) {
   } catch (error) { host.textContent = error.message; }
 }
 
-async function loadUpdates() {
+async function loadUpdates(markSeen = false) {
   try {
     const data = await api('/updates');
     const updates = data.updates || [];
-    const unread = Math.max(0, Number(data.unread) || 0);
+    if (markSeen) {
+      updates.forEach(item => updatesSeen.add(item.id));
+      persistUpdatesSeen();
+    }
+    const isVisibleUnread = item => !item.read && !updatesSeen.has(item.id);
+    const unread = updates.filter(isVisibleUnread).length;
     $('updatesBadge').textContent = unread > 99 ? '99+' : String(unread);
     $('updatesBadge').classList.toggle('hidden', unread === 0);
     $('updatesEmpty').classList.toggle('hidden', updates.length > 0);
     $('updatesList').innerHTML = updates.map(item => '<div class="list-item"><div class="item-head"><b>' +
       escapeHtml(item.name) + ' · v' + escapeHtml(item.version) + '</b>' +
-      (item.read ? '' : '<span class="pill warn">未读</span>') + '</div><div class="item-meta">' +
+      (isVisibleUnread(item) ? '<span class="pill warn">未读</span>' : '') + '</div><div class="item-meta">' +
       escapeHtml(formatTime(item.createdAt)) + '</div><button class="btn small" data-update-id="' +
       escapeHtml(item.id) + '" data-theme-id="' + escapeHtml(item.themeId) + '">查看主题</button></div>').join('');
   } catch (error) { if (currentView === 'updates') toast(error.message, true); }
@@ -2853,6 +2898,8 @@ $('updatesList').addEventListener('click', async event => {
   if (!button) return;
   try {
     await api('/updates/read', { method: 'POST', body: JSON.stringify({ id: button.dataset.updateId }) });
+    updatesSeen.add(button.dataset.updateId);
+    persistUpdatesSeen();
     const data = await api('/gallery?q=' + encodeURIComponent(button.dataset.themeId) + '&limit=10');
     const theme = (data.themes || []).find(item => item.id === button.dataset.themeId);
     if (theme) openDiscoverTheme(theme);
@@ -2864,7 +2911,7 @@ $('galleryApply').addEventListener('click', () => loadGallery(true));
 $('galleryRefresh').addEventListener('click', () => loadGallery(true));
 $('galleryMore').addEventListener('click', () => loadGallery(false));
 $('favoritesRefresh').addEventListener('click', loadFavorites);
-$('updatesRefresh').addEventListener('click', loadUpdates);
+$('updatesRefresh').addEventListener('click', () => loadUpdates(currentView === 'updates'));
 $('gallerySearch').addEventListener('keydown', event => { if (event.key === 'Enter') loadGallery(true); });
 $('galleryTag').addEventListener('keydown', event => { if (event.key === 'Enter') loadGallery(true); });
 
@@ -3453,6 +3500,8 @@ document.querySelectorAll('[data-tag-target]').forEach(group => {
       return;
     }
   }
+  readContentBadgeState();
+  readUpdatesSeen();
   loadProfile();
   refreshUserBadges();
   maybeShowAnnouncement();
